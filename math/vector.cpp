@@ -10,5 +10,5 @@ Point Vector::operator+(const Point& p)
 template <typename T>
 Vector Vector::operator*(const T& scalar)
 {
-	return Point(x * scalar, y * scalar, z * scalar, 0.0);
+	return Vector(x * scalar, y * scalar, z * scalar, 0.0);
 }
