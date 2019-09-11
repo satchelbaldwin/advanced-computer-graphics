@@ -1,6 +1,10 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 #include "../math/math.hpp"
+#include "geometry/sphere.hpp"
+#include <vector>
+
+// tuples and vectors and points
 
 TEST_CASE( "Tuple initialization", "[tuple]" ) 
 {
@@ -131,4 +135,83 @@ TEST_CASE("Cross products", "")
 	Vector b{2, 3, 4};
 	REQUIRE(cross(a, b) == Vector{-1, 2, -1});
 	REQUIRE(cross(b, a) == Vector{1, -2, 1});
+}
+
+// color
+
+// ray
+
+TEST_CASE("Creating a ray", "") 
+{
+	Point origin = Point(1, 2, 3);
+	Vector direction = Vector(4, 5, 6);
+	Ray ray(origin, direction);
+	REQUIRE(ray.origin == origin);
+	REQUIRE(ray.direction == direction);
+}
+
+TEST_CASE("Computing points at various distances", "") 
+{
+	Ray ray{Point(2, 3, 4), Vector(1, 0, 0)};
+	REQUIRE(ray.point_at(0) == Point(2, 3, 4));
+	REQUIRE(ray.point_at(1) == Point(3, 3, 4));
+	REQUIRE(ray.point_at(-1) == Point(1, 3, 4));
+	REQUIRE(ray.point_at(2.5) == Point(4.5, 3, 4));
+}
+
+// sphere
+
+TEST_CASE("Sphere intersection: 2 points", "") 
+{
+	Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
+	Sphere s;
+	auto xs = s.intersections_with(r);
+
+	std::vector<double> target = {4, 6};
+
+	REQUIRE(xs == target);
+}
+
+TEST_CASE("Sphere intersection: 1 point (tangent)", "") 
+{
+	Ray r{Point(0, 1, -5), Vector(0, 0, 1)};
+	Sphere s;
+	auto xs = s.intersections_with(r);
+
+	std::vector<double> target = {5, 5};
+
+	REQUIRE(xs == target);
+}
+
+TEST_CASE("Sphere intersection: No points", "") 
+{
+	Ray r{Point(0, 2, -5), Vector(0, 0, 1)};
+	Sphere s;
+	auto xs = s.intersections_with(r);
+
+	std::vector<double> target = {};
+
+	REQUIRE(xs == target);
+}
+
+TEST_CASE("Ray originates inside a sphere", "") 
+{
+	Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
+	Sphere s;
+	auto xs = s.intersections_with(r);
+
+	std::vector<double> target = {-1, 1};
+
+	REQUIRE(xs == target);
+}
+
+TEST_CASE("A sphere is behind a ray", "") 
+{
+	Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
+	Sphere s;
+	auto xs = s.intersections_with(r);
+
+	std::vector<double> target = {-6, -4};
+
+	REQUIRE(xs == target);
 }
