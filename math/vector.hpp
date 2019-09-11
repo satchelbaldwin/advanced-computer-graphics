@@ -6,6 +6,8 @@ class Point;
 class Vector : public V3<double> {
 public:
 	friend class Point;
+	operator Point() const;
+
 	Vector(double x, double y, double z) : V3(x, y, z, 0.0) {}
 
 	Point operator+(const Point& p);

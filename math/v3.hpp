@@ -1,4 +1,8 @@
 #pragma once
+#include "math.h"
+
+class Vector;
+class Point;
 
 template <class T>
 class V3 {
@@ -48,6 +52,13 @@ public:
 		return V3<T>((T)scalar * v.x, (T)scalar * v.y, (T)scalar * v.z, (T)scalar * v.w);
 	}
 
+	// division
+	template <class T2>
+	V3<T> operator/(const T2& scalar) 
+	{
+		return *this * (double)(1/(double)scalar);
+	}
+
 	// initialization (copy)
 	template <class T2>
 	V3(const V3<T2>& v) : x((T)v.x), y((T)v.y), z((T)v.z), w((T)v.w) {}
@@ -56,7 +67,7 @@ public:
 	template <class T2>
 	auto dot(const V3<T2>& v) -> decltype(x * v.x) 
 	{
-		return (x * v.x + y * v.x + z * v.z);
+		return (x * v.x + y * v.y + z * v.z);
 	}
 
 	// equality
@@ -65,6 +76,24 @@ public:
 	{
 		return (x == v.x && y == v.y && z == v.z && w == v.w);
 	}
+
+	// magnitude
+	double magnitude() const 
+	{
+		return sqrt(x * x + y * y + z * z);
+	}
+
+	V3<T> normalize()
+	{
+		double m = this->magnitude();
+		return V3<T>(x / m, y / m, z / m, w);
+	}
+
+	// quick casts to points and vectors to set w
+	friend class Vector;
+	friend class Point;
+	operator Vector() const;
+	operator Point() const;
 };
 
 template <class T1, class T2>
@@ -72,3 +101,16 @@ auto dot(const V3<T1>& v1, const V3<T2>& v2) -> decltype(v1.dot(v2))
 {
 	return v1.dot(v2);
 }
+
+template <class T1, class T2>
+auto cross(const V3<T1>& v1, const V3<T2>& v2) -> V3<decltype(v1.y * v2.z - v1.z * v2.y)>
+{
+	return V3<decltype(v1.y * v2.z - v1.z * v2.y)>(
+		v1.y * v2.z - v1.z * v2.y,
+		v1.z * v2.x - v1.x * v2.z,
+		v1.x * v2.y - v1.y * v2.x,
+		0.0 // vector
+	);
+}
+
+typedef V3<double> Tuple;

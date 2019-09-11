@@ -1,14 +1,19 @@
-CC=clang++
-CFLAGS=-I.
-DEPS=./math/math.hpp
+CXX=clang++
+CXXFLAGS=-I. -Wall -Werror
+DEPS=./math/math.hpp \
+     ./math/v3.hpp \
+     ./math/point.hpp \
+     ./math/vector.hpp
 OBJ = ./math/vector.o \
       ./math/point.o \
-      ./tests/tests.o
+      ./math/v3.o \
+      ./tests/tests.o 
 
 %.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CXX) -Wall -Werror -c -o $@ $< $(CXXFLAGS)
 
-all: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+all: $(OBJ) 
+	$(CXX) -o $@ $^ $(CXXFLAGS)
 
-
+clean: 
+	rm $(OBJ)
