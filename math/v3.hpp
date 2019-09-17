@@ -114,4 +114,4 @@ auto cross(const V3<T1>& v1, const V3<T2>& v2) -> V3<decltype(v1.y * v2.z - v1.z
 }
 
 typedef V3<double> Tuple;
-typedef V3<double> Color;
+typedef Vector Color;

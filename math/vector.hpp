@@ -10,9 +10,14 @@ public:
 
 	Vector(double x, double y, double z) : V3(x, y, z, 0.0) {}
 
-	Point operator+(const Point& p);
+	Point operator+(const Point& p) const;
 
 	template <typename T>
-	Vector operator*(const T& scalar);
+	Vector operator*(const T& scalar) const;
 };
-
+	
+template <class T>
+inline Vector operator*(const T& scalar, const Vector& v)
+{
+	return (scalar * v);
+}

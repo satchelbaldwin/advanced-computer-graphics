@@ -12,5 +12,5 @@ Ray::Ray(Point p, Vector v) : origin(p), direction(v)
 
 Point Ray::point_at(double t)
 {
-	return (t * direction+ origin);
+	return (t * direction + origin);
 }
