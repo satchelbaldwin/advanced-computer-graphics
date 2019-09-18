@@ -1,5 +1,15 @@
 CXX=g++
-CXXFLAGS=-no-pie -I. -Wall -Werror -g -ggdb
+CXXFLAGS=-I. -Wall -Werror -g -ggdb
+
+# https://stackoverflow.com/questions/714100/os-detecting-makefile
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+     CXXFLAGS += -no-pie
+endif
+ifeq ($(UNAME), Darwin)
+     CXXFLAGS += -std=c++11
+endif
+
 DEPS=./math/math.hpp \
      ./math/v3.hpp \
      ./math/point.hpp \
@@ -29,6 +39,6 @@ first-image: ./tests/first-image.o $(OBJ)
 
 .PHONY: clean
 clean: 
-	rm $(OBJ)
-	rm ./tests/first-image.o
-	rm ./tests/tests.o
+	rm -f $(OBJ)
+	rm -f ./tests/first-image.o
+	rm -f ./tests/tests.o
