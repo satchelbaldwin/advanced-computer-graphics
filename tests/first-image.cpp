@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 	Color red{1.0, 0, 0};
 	Color black{0, 0, 0};
 
-	Point light{1, 0, -0.5};
+	Point light{5, 0, -5};
 
 	// orthographic camera
 	for (size_t row = 0; row < canvas.height; ++row) {
@@ -26,9 +26,8 @@ int main(int argc, char **argv)
 				Vector unit_to_light = to_light.normalize();
 				Vector normal = s.normal_at(hit);
 
-				auto light_intensity = normal * unit_to_light;
-				light_intensity = Vector(1, 1, 1);
-				Color c = light_intensity * Color(1, 1, 1) * red;
+				auto light_intensity = normal.dot(unit_to_light);
+				Color c = light_intensity * red;
 
 				//std::cout << row << " " << col << " " << light_intensity << std::endl;
 				canvas.pixels[col][row] = c;
