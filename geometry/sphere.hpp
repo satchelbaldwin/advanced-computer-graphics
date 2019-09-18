@@ -5,6 +5,6 @@
 class Sphere {
 public:
 	Sphere();
-	std::vector<double> intersections_with(Ray&);
+	std::vector<double> intersects_with(Ray&);
 	Vector normal_at(Point&);
 };

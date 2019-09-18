@@ -12,6 +12,9 @@ public:
 	
 	Vector operator-(const Point& p) const;
 
-	template <typename T>
-	Point operator*(const T& scalar) const;
+	/*template <typename T>
+	Point operator*(const T& scalar) const
+	{
+		return Point(x * scalar, y * scalar, z * scalar, 1.0);
+	};*/
 };

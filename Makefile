@@ -1,5 +1,5 @@
-CXX=clang++
-CXXFLAGS=-I. -Wall -Werror
+CXX=g++
+CXXFLAGS=-no-pie -I. -Wall -Werror -g -ggdb
 DEPS=./math/math.hpp \
      ./math/v3.hpp \
      ./math/point.hpp \
@@ -30,3 +30,5 @@ first-image: ./tests/first-image.o $(OBJ)
 .PHONY: clean
 clean: 
 	rm $(OBJ)
+	rm ./tests/first-image.o
+	rm ./tests/tests.o

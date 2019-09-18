@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include "../math/math.hpp"
 #include "geometry/sphere.hpp"
+#include "canvas/canvas.hpp"
 #include <vector>
 
 // tuples and vectors and points
@@ -172,7 +173,7 @@ TEST_CASE("Sphere intersection: 2 points", "")
 {
 	Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
 	Sphere s;
-	auto xs = s.intersections_with(r);
+	auto xs = s.intersects_with(r);
 
 	std::vector<double> target = {4, 6};
 
@@ -183,7 +184,7 @@ TEST_CASE("Sphere intersection: 1 point (tangent)", "")
 {
 	Ray r{Point(0, 1, -5), Vector(0, 0, 1)};
 	Sphere s;
-	auto xs = s.intersections_with(r);
+	auto xs = s.intersects_with(r);
 
 	std::vector<double> target = {5, 5};
 
@@ -194,7 +195,7 @@ TEST_CASE("Sphere intersection: No points", "")
 {
 	Ray r{Point(0, 2, -5), Vector(0, 0, 1)};
 	Sphere s;
-	auto xs = s.intersections_with(r);
+	auto xs = s.intersects_with(r);
 
 	std::vector<double> target = {};
 
@@ -205,7 +206,7 @@ TEST_CASE("Ray originates inside a sphere", "")
 {
 	Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
 	Sphere s;
-	auto xs = s.intersections_with(r);
+	auto xs = s.intersects_with(r);
 
 	std::vector<double> target = {-1, 1};
 
@@ -216,9 +217,113 @@ TEST_CASE("A sphere is behind a ray", "")
 {
 	Ray r{Point(0, 0, 5), Vector(0, 0, 1)};
 	Sphere s;
-	auto xs = s.intersections_with(r);
+	auto xs = s.intersects_with(r);
 
 	std::vector<double> target = {-6, -4};
 
 	REQUIRE(xs == target);
 }
+
+
+
+TEST_CASE("Creating a canvas", "") 
+{
+	Canvas c{10, 20};
+	REQUIRE(c.width  == 10);
+	REQUIRE(c.height == 20);
+	for (size_t y = 0; y < c.height; ++y) {
+		for (size_t x = 0; x < c.width; ++x) {
+			REQUIRE(c.pixels[y][x] == Color(0, 0, 0));
+		}
+	}
+}
+
+TEST_CASE("Constructing the PPM header", "") 
+{
+	Canvas c{5, 3};
+	c.write("headertest.ppm");
+	REQUIRE(1 == 1);
+}
+
+TEST_CASE("Writing pixels to a canvas", "")
+{
+	Canvas c{10, 10};
+	Color red{1, 0, 0};
+	c.set(2, 3, red);
+	REQUIRE(c.get(2, 3) == red);
+}
+
+TEST_CASE("Writing pixels to a canvas and saving it", "")
+{
+	Canvas c{5, 3};
+	Color c1{1.5, 0, 0};
+	Color c2{0, 0.5, 0};
+	Color c3{-0.5, 0, 1};
+
+	c.set(0, 0, c1);
+	c.set(2, 1, c2);
+	c.set(4, 2, c3);
+
+	c.write("writetest.ppm");
+
+	REQUIRE(1 == 1);
+}
+
+/*
+Scenario: Constructing the PPM header
+
+  Given c ← canvas(5, 3)
+
+  When ppm ← canvas_to_ppm(c)
+
+  Then lines 1-3 of ppm are
+
+    """
+
+    P3
+
+    5 3
+
+    255
+
+    """
+
+Scenario: Constructing the PPM pixel data
+
+  Given c ← canvas(5, 3)
+
+    And c1 ← color(1.5, 0, 0)
+
+    And c2 ← color(0, 0.5, 0)
+
+    And c3 ← color(-0.5, 0, 1)
+
+  When write_pixel(c, 0, 0, c1)
+
+    And write_pixel(c, 2, 1, c2)
+
+    And write_pixel(c, 4, 2, c3)
+
+    And ppm ← canvas_to_ppm(c)
+
+  Then lines 4-6 of ppm are
+
+    """
+
+    255 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+    0 0 0 0 0 0 0 128 0 0 0 0 0 0 0
+
+    0 0 0 0 0 0 0 0 0 0 0 0 0 0 255
+
+    """
+
+Scenario: PPM files are terminated by a newline character
+
+  Given c ← canvas(5, 3)
+
+  When ppm ← canvas_to_ppm(c)
+
+  Then ppm ends with a newline character
+
+*/

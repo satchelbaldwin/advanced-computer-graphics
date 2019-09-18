@@ -6,7 +6,7 @@ Sphere::Sphere()
 
 }
 
-std::vector<double> Sphere::intersections_with(Ray& ray)
+std::vector<double> Sphere::intersects_with(Ray& ray)
 {
 	Vector adjusted_origin = ray.origin - Point(0, 0, 0);
 	double b = ray.direction.dot(adjusted_origin) * 2;

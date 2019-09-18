@@ -12,12 +12,15 @@ public:
 
 	Point operator+(const Point& p) const;
 
-	template <typename T>
-	Vector operator*(const T& scalar) const;
+	Vector operator*(const Vector v2) const
+	{
+		return Vector(x * v2.x, y * v2.y, z * v2.z);
+	};
 };
 	
-template <class T>
+/*template <class T>
 inline Vector operator*(const T& scalar, const Vector& v)
 {
-	return (scalar * v);
+	return (v * scalar);
 }
+*/ 

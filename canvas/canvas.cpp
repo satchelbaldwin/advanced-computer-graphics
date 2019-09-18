@@ -13,7 +13,18 @@ Canvas::Canvas(unsigned int w, unsigned int h) : width(w), height(h)
 	pixels = (Color**)malloc(height * sizeof(Color*));
 	for (size_t row = 0; row < height; ++row) {
 		pixels[row] = (Color*)malloc(width * sizeof(Color));
+		for (size_t col = 0; col < width; ++col) {
+			pixels[row][col] = Color(0, 0, 0);
+		}
 	}
+}
+
+Canvas::~Canvas()
+{
+	for (size_t row = 0; row < height; ++row) {
+		free(pixels[row]);
+	}
+	free(pixels);
 }
 
 Color Canvas::clamp_color(const Color& c)
@@ -40,5 +51,16 @@ void Canvas::write(std::string filename)
 		}
 		file << "\n";
 	}
+	file << "\n";
 	file.close();
+}
+
+void Canvas::set(unsigned int x, unsigned int y, Color c)
+{
+	pixels[y][x] = c;
+}
+
+Color Canvas::get(unsigned int x, unsigned int y)
+{
+	return pixels[y][x];
 }
