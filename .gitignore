@@ -1,0 +1,6 @@
+*.o
+catch.hpp
+test
+first-image
+worksheet/
+*.ppm
