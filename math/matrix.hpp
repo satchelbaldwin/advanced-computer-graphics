@@ -38,6 +38,7 @@ public:
 
     void store_inverse();
     std::shared_ptr<Matrix> get_inverse();
+    bool invertable();
 
     double determinant();
     Matrix submatrix(int, int);
