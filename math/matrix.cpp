@@ -8,9 +8,9 @@ Matrix::Matrix()
 Matrix::Matrix(int n)
 {
     data = (double **)malloc(sizeof(double *) * n);
-    for (size_t i = 0; i < n; ++i) {
+    for (int i = 0; i < n; ++i) {
         data[i] = (double *)malloc(sizeof(double) * n);
-        for (size_t j = 0; j < n; ++j) {
+        for (int j = 0; j < n; ++j) {
             data[i][j] = 0;
         }
     } 
@@ -18,7 +18,7 @@ Matrix::Matrix(int n)
 
 Matrix::~Matrix()
 {
-    for (size_t i = 0; i < n; ++i) {
+    for (int i = 0; i < size; ++i) {
         free(data[i]);
     }
     free(data);
@@ -34,7 +34,7 @@ void Matrix::store_inverse()
         throw std::runtime_error("Matrix isn't invertable (det is 0)");
 }
 
-void Matrix::invertable()
+bool Matrix::invertable()
 {
     return (determinant() != 0);
 }
@@ -42,19 +42,19 @@ void Matrix::invertable()
 std::shared_ptr<Matrix> Matrix::get_inverse()
 {
     if (inverse == nullptr) {
-        inverse = store_inverse();
+        store_inverse();
     }
     return inverse; 
 }
 
 Matrix Matrix::scale(Tuple t)
 {
-
+    return Matrix();
 }
 
 Matrix Matrix::translate(Tuple t)
 {
-    
+    return Matrix();
 }
 
 double Matrix::determinant()
@@ -68,21 +68,22 @@ double Matrix::determinant()
     } else if (size == 2) {
         return (data[0][0] * data[1][1] - data[0][1] * data[1][0]);
     }
+    return 0;
 }
 
 Matrix Matrix::submatrix(int i, int j) 
 {
     Matrix submatrix{size-1};
-    for (size_t x = 0; x < size; ++x) {
-        for (size_t y = 0; y < size; ++y) {
-            
+    for (int x = 0; x < size; ++x) {
+        for (int y = 0; y < size; ++y) {
         }
     }
+    return Matrix();
 }
 
 Tuple operator*(const Tuple& t, const Matrix& m)
 {
-
+    return Tuple(0, 0, 0, 0);
 }
 
 Matrix Matrix::operator*(const Matrix& m)
@@ -90,13 +91,14 @@ Matrix Matrix::operator*(const Matrix& m)
     if (size != m.size)
         throw std::runtime_error("Can't multiply matrices of different sizes");
     Matrix result{size};
-    for (size_t x = 0; x < size; ++x) {
-        for (size_t y = 0; y < size; ++y) {
-            double total = 0;
-            for (size_t index_x = 0; index_x < size; ++index_x){
+    for (int x = 0; x < size; ++x) {
+        for (int y = 0; y < size; ++y) {
+            //double total = 0;
+            for (int index_x = 0; index_x < size; ++index_x){
                 
             }
-            result[x][y] = 
+            result.data[x][y] = 0.0f;
         }
     }
+    return result;
 }

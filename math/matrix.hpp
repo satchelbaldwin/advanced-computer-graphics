@@ -30,7 +30,7 @@ public:
     double **data;
     int size;
     std::shared_ptr<Matrix> inverse;
-    int determinant;
+    std::shared_ptr<double> stored_determinant;
 
     Matrix();
     Matrix(int);
@@ -48,4 +48,6 @@ public:
 
     Matrix scale(Tuple);
     Matrix translate(Tuple);
-}
+
+    Matrix operator*(const Matrix&);
+};
