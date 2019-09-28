@@ -8,6 +8,7 @@ public:
 	friend class Vector;
 	operator Vector() const;
 
+	Point() : V3(0.0f, 0.0f, 0.0f, 1.0) {}
 	Point(double x, double y, double z): V3(x, y, z, 1.0) {}
 	
 	Vector operator-(const Point& p) const;

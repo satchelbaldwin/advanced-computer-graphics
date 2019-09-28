@@ -1,5 +1,5 @@
 CXX=g++
-CXX_FLAGS=-I. -Wall -Werror -g -ggdb
+CXXFLAGS=-I. -Wall -Werror -g -ggdb
 
 # https://stackoverflow.com/questions/714100/os-detecting-makefile
 UNAME := $(shell uname)
@@ -21,22 +21,24 @@ CPP = $(wildcard canvas/*.cpp) \
 OBJ = $(CPP:%.cpp=$(BUILD_DIR)/%.o)
 DEP = $(OBJ:%.o=%.d)
 
+.PHONY : lib
+
 test : $(BUILD_DIR)/bin/test
 first-image: $(BUILD_DIR)/bin/first-image
 
 # Actual target of the binary - depends on all .o files.
-$(BUILD_DIR)/bin/test : tests/tests.o $(OBJ)
+$(BUILD_DIR)/bin/test : tests/tests.o $(OBJ) $(CXX_FLAGS)
     # Create build directories - same structure as sources.
 	mkdir -p $(@D)
     # Just link all the object files.
-	$(CXX) $(CXX_FLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
 # Actual target of the binary - depends on all .o files.
-$(BUILD_DIR)/bin/first-image : tests/first-image.cpp $(OBJ)
+$(BUILD_DIR)/bin/first-image : tests/first-image.o $(OBJ) $(CXX_FLAGS)
     # Create build directories - same structure as sources.
 	mkdir -p $(@D)
     # Just link all the object files.
-	$(CXX) $(CXX_FLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
 # Build target for every single object file.
 # The potential dependency on header files is covered
@@ -45,7 +47,7 @@ $(BUILD_DIR)/%.o : %.cpp
 	mkdir -p $(@D)
     # The -MMD flags additionaly creates a .d file with
     # the same name as the .o file.
-	$(CXX) $(CXX_FLAGS) -MMD -c $< -o $@
+	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
 
 # Include all .d files
 -include $(DEP)

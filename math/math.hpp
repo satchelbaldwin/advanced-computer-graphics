@@ -3,3 +3,4 @@
 #include "point.hpp"
 #include "vector.hpp"
 #include "ray.hpp"
+#include "matrix.hpp"

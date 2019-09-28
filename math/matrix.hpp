@@ -36,18 +36,26 @@ public:
     Matrix(int);
     ~Matrix();
 
+    void from_array(double*);
+
     void store_inverse();
     std::shared_ptr<Matrix> get_inverse();
     bool invertable();
 
+    void store_determinant();
     double determinant();
     Matrix submatrix(int, int);
     double minor(int, int);
     double cofactor(int, int);
     Matrix transpose();
 
-    Matrix scale(Tuple);
-    Matrix translate(Tuple);
+    static Matrix scale(Tuple);
+    static Matrix translate(Tuple);
 
     Matrix operator*(const Matrix&);
+    bool operator==(const Matrix&) const;
+
+    // square brackets resolve to data[]
+    double *operator[](int i) const;
+    double *&operator[](int i);
 };

@@ -1,0 +1,33 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Make tests",
+            "command": "/bin/make",
+            "args": [
+                "test"
+            ],
+            /*"options": {
+                "cwd": "/bin"
+            },*/
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "process",
+            "label": "Run tests",
+            "command": "./build/bin/test",
+            "options": {
+                "cwd": "./build/bin"
+            },
+        }
+    ]
+}

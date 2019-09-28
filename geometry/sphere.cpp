@@ -30,7 +30,6 @@ std::vector<double> Sphere::intersects_with(Ray& ray)
 	}
 
 	return v;
-
 }
 
 Vector Sphere::normal_at(Point& p)
