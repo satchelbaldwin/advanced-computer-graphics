@@ -1,2 +1,4 @@
 catch.hpp
 build/
+*.o
+*.d
