@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-I. -Wall -Werror -g -ggdb
+CXXFLAGS=-I. -Wall -Wextra -g -ggdb -O0
 
 # https://stackoverflow.com/questions/714100/os-detecting-makefile
 UNAME := $(shell uname)
@@ -25,6 +25,7 @@ DEP = $(OBJ:%.o=%.d)
 
 test : $(BUILD_DIR)/bin/test
 first-image: $(BUILD_DIR)/bin/first-image
+scratch : $(BUILD_DIR)/bin/scratch
 
 # Actual target of the binary - depends on all .o files.
 $(BUILD_DIR)/bin/test : tests/tests.o $(OBJ) $(CXX_FLAGS)
@@ -35,6 +36,13 @@ $(BUILD_DIR)/bin/test : tests/tests.o $(OBJ) $(CXX_FLAGS)
 
 # Actual target of the binary - depends on all .o files.
 $(BUILD_DIR)/bin/first-image : tests/first-image.o $(OBJ) $(CXX_FLAGS)
+    # Create build directories - same structure as sources.
+	mkdir -p $(@D)
+    # Just link all the object files.
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+# Actual target of the binary - depends on all .o files.
+$(BUILD_DIR)/bin/scratch : tests/scratch.o $(OBJ) $(CXX_FLAGS)
     # Create build directories - same structure as sources.
 	mkdir -p $(@D)
     # Just link all the object files.

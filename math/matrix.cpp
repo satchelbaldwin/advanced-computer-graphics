@@ -1,11 +1,15 @@
 #include "matrix.hpp"
+#include <iostream>
 
-Matrix::Matrix() 
+Matrix::Matrix() : Matrix(4)
 {
-    Matrix(4);
+
 }
 
-Matrix::Matrix(int n)
+Matrix::Matrix(int n) : 
+    size(n), 
+    inverse(nullptr),
+    stored_determinant(nullptr)
 {
     data = (double **)malloc(sizeof(double *) * n);
     for (int i = 0; i < n; ++i) {
@@ -14,8 +18,6 @@ Matrix::Matrix(int n)
             data[i][j] = 0;
         }
     } 
-    stored_determinant = nullptr;
-    inverse = nullptr;
 }
 
 Matrix::~Matrix()
@@ -26,11 +28,43 @@ Matrix::~Matrix()
     free(data);
 }
 
+Matrix::Matrix(const Matrix& m) : Matrix(m.size)
+{
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            data[i][j] = m.data[i][j];
+        }
+    }
+}
+
+Matrix::Matrix(Matrix&& m) noexcept :
+    size(std::exchange(m.size, 0)),
+    inverse(std::exchange(m.inverse, nullptr)),
+    stored_determinant(std::exchange(m.stored_determinant, nullptr)),
+    data(std::exchange(m.data, nullptr))
+{
+
+}
+
+Matrix& Matrix::operator=(const Matrix& m)
+{
+    return *this = Matrix(m);
+}
+
+Matrix& Matrix::operator=(Matrix&& m) noexcept
+{
+    std::swap(size, m.size);
+    std::swap(inverse, m.inverse);
+    std::swap(stored_determinant, m.stored_determinant);
+    std::swap(data, m.data);
+    return *this;
+}
+
 void Matrix::from_array(double *d)
 {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            data[i][j] = (i % size) + (j / size);
+            data[i][j] = d[i * size + j % size];
         }
     }
 }

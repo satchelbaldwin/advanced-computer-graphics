@@ -224,8 +224,6 @@ TEST_CASE("A sphere is behind a ray", "")
 	REQUIRE(xs == target);
 }
 
-
-
 TEST_CASE("Creating a canvas", "") 
 {
 	Canvas c{10, 20};
@@ -269,8 +267,26 @@ TEST_CASE("Writing pixels to a canvas and saving it", "")
 	REQUIRE(1 == 1);
 }
 
+TEST_CASE("")
+{
+  Matrix m;
+  double initial[] = 
+    {1, 2, 3, 4,
+     5.5, 6.5, 7.5, 8.5,
+     9, 10, 11, 12,
+     0, 0, 0, 1};
+  m.from_array(initial);
+  REQUIRE(m.data[0][0] == 1);
 
+}
 
+TEST_CASE("")
+{
+  
+}TEST_CASE("")
+{
+  
+}
 /* 
 Feature: Matrices
 
@@ -474,9 +490,11 @@ TEST_CASE("Intersecting a scaled sphere with a ray")
 {
 	Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
 	Sphere s;
-	s.transform = Matrix::scale(Tuple(2, 2, 2, 0));
+    Matrix m = Matrix::scale(Tuple(2, 2, 2, 0));
+	s.transform = m;
 	auto i = s.intersects_with(r);
 	std::vector<double> target = {3, 7};
+    int x = 0;
 }
 
 /*

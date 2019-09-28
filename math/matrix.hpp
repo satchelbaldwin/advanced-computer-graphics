@@ -32,9 +32,17 @@ public:
     std::shared_ptr<Matrix> inverse;
     std::shared_ptr<double> stored_determinant;
 
+
     Matrix();
     Matrix(int);
+    // big five
+    // https://en.cppreference.com/w/cpp/language/rule_of_three 
     ~Matrix();
+    Matrix(const Matrix&);
+    Matrix(Matrix&&) noexcept;
+    Matrix& operator=(const Matrix&);
+    Matrix& operator=(Matrix&&) noexcept;
+
 
     void from_array(double*);
 
