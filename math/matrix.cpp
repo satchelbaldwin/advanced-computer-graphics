@@ -155,6 +155,7 @@ Matrix Matrix::submatrix(int i, int j)
     int x = 0;
     int y = 0;
     for (int si = 0; si < size - 1; ++si) {
+        y = 0;
         if (x == i) {
             x++;
             si--;
@@ -226,8 +227,6 @@ Matrix Matrix::operator*(const Matrix& m)
     for (int row = 0; row < size; ++row) {
         for (int col = 0; col < size; ++col) {
             double total = 0;
-            // for each position in the matrix, 
-            // traverse the row of the left and column of the right...
             for (int index_x = 0, index_y = 0; index_x < size; ++index_x, ++index_y){
                 total += data[row][index_x] * m.data[index_y][col];
             }
