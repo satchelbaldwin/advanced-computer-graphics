@@ -1,11 +1,9 @@
 #pragma once
-#include "math/math.hpp"
-#include <vector>
+#include "object.hpp"
 
-class Sphere {
+class Sphere : public Object {
 public:
 	Sphere();
-	Matrix transform;
-	std::vector<double> intersects_with(Ray&);
-	Vector normal_at(Point&);
+	std::vector<Intersection> intersects_with(Ray&) override;
+	Vector normal_at(Point&) override;
 };

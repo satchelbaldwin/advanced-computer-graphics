@@ -11,5 +11,9 @@ public:
     Point origin;
     int width;
     int height;
+    Matrix transform;
+    Vector forward;
+    Vector up;
+    Vector right;
 };
 

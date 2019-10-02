@@ -175,9 +175,11 @@ TEST_CASE("Sphere intersection: 2 points", "")
 	Sphere s;
 	auto xs = s.intersects_with(r);
 
+  std::vector<double> int_r;
+  for (Intersection i : xs) int_r.push_back(i.t);  
 	std::vector<double> target = {4, 6};
 
-	REQUIRE(xs == target);
+	REQUIRE(int_r == target);
 }
 
 TEST_CASE("Sphere intersection: 1 point (tangent)", "") 
@@ -185,10 +187,12 @@ TEST_CASE("Sphere intersection: 1 point (tangent)", "")
 	Ray r{Point(0, 1, -5), Vector(0, 0, 1)};
 	Sphere s;
 	auto xs = s.intersects_with(r);
+    std::vector<double> int_r;
+  for (Intersection i : xs) int_r.push_back(i.t); 
 
 	std::vector<double> target = {5, 5};
 
-	REQUIRE(xs == target);
+	REQUIRE(int_r == target);
 }
 
 TEST_CASE("Sphere intersection: No points", "") 
@@ -196,10 +200,12 @@ TEST_CASE("Sphere intersection: No points", "")
 	Ray r{Point(0, 2, -5), Vector(0, 0, 1)};
 	Sphere s;
 	auto xs = s.intersects_with(r);
+    std::vector<double> int_r;
+  for (Intersection i : xs) int_r.push_back(i.t); 
 
 	std::vector<double> target = {};
 
-	REQUIRE(xs == target);
+	REQUIRE(int_r == target);
 }
 
 TEST_CASE("Ray originates inside a sphere", "") 
@@ -207,10 +213,12 @@ TEST_CASE("Ray originates inside a sphere", "")
 	Ray r{Point(0, 0, 0), Vector(0, 0, 1)};
 	Sphere s;
 	auto xs = s.intersects_with(r);
+    std::vector<double> int_r;
+  for (Intersection i : xs) int_r.push_back(i.t); 
 
 	std::vector<double> target = {-1, 1};
 
-	REQUIRE(xs == target);
+	REQUIRE(int_r == target);
 }
 
 TEST_CASE("A sphere is behind a ray", "") 
@@ -219,9 +227,12 @@ TEST_CASE("A sphere is behind a ray", "")
 	Sphere s;
 	auto xs = s.intersects_with(r);
 
+  std::vector<double> int_r;
+  for (Intersection i : xs) int_r.push_back(i.t); 
+
 	std::vector<double> target = {-6, -4};
 
-	REQUIRE(xs == target);
+	REQUIRE(int_r == target);
 }
 
 TEST_CASE("Creating a canvas", "") 
@@ -400,16 +411,7 @@ TEST_CASE("Minor: 3x3")
     REQUIRE(s.determinant() == 25);
     REQUIRE(m.minor(1, 0) == 25);
 }
-/*
-
-Scenario: Calculating a minor of a 3x3 matrix
-  Given the following 3x3 matrix A:
-      |  3 |  5 |  0 |
-      |  2 | -1 | -7 |
-      |  6 | -1 |  5 |
-    And B ← submatrix(A, 1, 0)
-  Then determinant(B) = 25
-    And minor(A, 1, 0) = 25
+/*S
 
 Scenario: Calculating a cofactor of a 3x3 matrix
   Given the following 3x3 matrix A:

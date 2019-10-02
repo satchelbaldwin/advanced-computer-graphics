@@ -201,7 +201,7 @@ Tuple operator*(const Matrix& m, const Tuple& t)
 {
     // horrible hack to access the tuple like an array
     // need assignable lvalue for result and const for argument 
-    // so make it mutable and const_cast t because we aren't changing t
+    // so make it mutable and const_cast t because we ensure we aren't changing t
     auto access = [](Tuple& t, int i) -> double& {
         if (i == 0) return t.x;
         if (i == 1) return t.y;

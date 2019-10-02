@@ -9,6 +9,7 @@ public:
 	operator Point() const;
 
 	Vector(double x, double y, double z) : V3(x, y, z, 0.0) {}
+	Vector() : V3() {}
 
 	Point operator+(const Point& p) const;
 

@@ -14,3 +14,10 @@ Point Ray::point_at(double t)
 {
 	return (direction * t + origin);
 }
+
+Ray Ray::transform(const Matrix& m)
+{
+	auto t_origin = m * origin;
+	auto t_direction = m * direction;
+	return Ray(t_origin, t_direction);
+}
