@@ -1,3 +1,5 @@
+#pragma once
+
 /*
 scaling: identity with diagonal changed for x, y, z
 transforms and shifting: 4th column is multiplied by w (always 1) to translate
@@ -21,9 +23,9 @@ order of operations matters!
 scale(2) -> translate(1, 0, 0) != translate(1, 0, 0) -> scale(2)
  */
 
-#pragma once
 #include <memory>
 #include "v3.hpp"
+#include <fstream>
 
 class Matrix {
 public:
@@ -31,7 +33,6 @@ public:
     int size;
     std::shared_ptr<Matrix> inverse;
     std::shared_ptr<double> stored_determinant;
-
 
     Matrix();
     Matrix(int);
@@ -42,7 +43,6 @@ public:
     Matrix(Matrix&&) noexcept;
     Matrix& operator=(const Matrix&);
     Matrix& operator=(Matrix&&) noexcept;
-
 
     void from_array(double*);
 
@@ -59,11 +59,34 @@ public:
 
     static Matrix scale(Tuple);
     static Matrix translate(Tuple);
+    static Matrix identity(int);
 
     Matrix operator*(const Matrix&);
     bool operator==(const Matrix&) const;
+    bool operator!=(const Matrix& m) const 
+    {
+        return !(*this == m);
+    }
 
     // square brackets resolve to data[]
     double *operator[](int i) const;
     double *&operator[](int i);
+
+    friend std::ostream& operator << ( std::ostream& os, Matrix const& v ) {
+        os << "{";
+        for (int row = 0; row < v.size; ++row) {
+            os << "{";
+            for (int col = 0; col < v.size - 1; ++col) {
+                os << v[row][col] << ",";
+            }
+            os << v[row][v.size - 1];
+            os << "}";
+        } 
+        os << "}";
+        return os; 
+    }   
 };
+
+
+
+Tuple operator*(const Matrix& m, const Tuple& t);

@@ -267,7 +267,7 @@ TEST_CASE("Writing pixels to a canvas and saving it", "")
 	REQUIRE(1 == 1);
 }
 
-TEST_CASE("")
+TEST_CASE("4x4 matrix initialization")
 {
   Matrix m;
   double initial[] = 
@@ -277,129 +277,130 @@ TEST_CASE("")
      0, 0, 0, 1};
   m.from_array(initial);
   REQUIRE(m.data[0][0] == 1);
-
+  REQUIRE(m.data[0][3] == 4);
+  REQUIRE(m.data[1][0] == 5.5);
+  REQUIRE(m.data[1][2] == 7.5);
+  REQUIRE(m.data[2][2] == 11);
+  REQUIRE(m.data[3][0] == 0);
+  REQUIRE(m.data[3][3] == 1);
 }
 
-TEST_CASE("")
+TEST_CASE("2x2 matrix initialization")
 {
-  
-}TEST_CASE("")
-{
-  
+    Matrix m{2};
+    double initial[] = {-3, 5, 1, -2};
+    m.from_array(initial);
+    REQUIRE(m.data[0][0] == -3);
+    REQUIRE(m.data[0][1] == 5);
+    REQUIRE(m.data[1][0] == 1);
+    REQUIRE(m.data[1][1] == -2);
 }
-/* 
-Feature: Matrices
 
-Scenario: Constructing and inspecting a 4x4 matrix
-  Given the following 4x4 matrix M:
-    |  1   |  2   |  3   |  4   |
-    |  5.5 |  6.5 |  7.5 |  8.5 |
-    |  9   | 10   | 11   | 12   |
-    |  0   |  0   |  0   |  1   |
-  Then M[0,0] = 1
-    And M[0,3] = 4
-    And M[1,2] = 5.5
-    And M[1,2] = 7.5
-    And M[2,2] = 11
-    And M[3,0] = 0
-    And M[3,3] = 1
+TEST_CASE("3x3 matrix initialization")
+{
+    Matrix m{3};
+    double initial[] = {-3, 5, 0, 1, -2, -7, 0, 1, 1};
+    m.from_array(initial);
+    REQUIRE(m.data[0][0] == -3);
+    REQUIRE(m.data[1][1] == -2);
+    REQUIRE(m.data[2][2] == 1);
+}
 
-Scenario: A 2x2 matrix ought to be representable
-  Given the following 2x2 matrix M:
-    | -3 |  5 |
-    |  1 | -2 |
-  Then M[0,0] = -3
-    And M[0,1] = 5
-    And M[1,0] = 1
-    And M[1,1] = -2
+TEST_CASE("Matrix equality -- identical")
+{
+    Matrix m1{4};
+    Matrix m2{4};
+    double initial[] = {1,2,3,4,5,6,7,8,9,8,7,6,0,0,0,1};
+    m1.from_array(initial);
+    m2.from_array(initial);
+    REQUIRE(m1 == m2);
+}
 
-Scenario: A 3x3 matrix ought to be representable
-  Given the following 3x3 matrix M:
-    | -3 |  5 |  0 |
-    |  1 | -2 | -7 |
-    |  0 |  1 |  1 |
-  Then M[0,0] = -3
-    And M[1,1] = -2
-    And M[2,2] = 1
+TEST_CASE("Matrix equality -- different")
+{
+    Matrix m1{4};
+    Matrix m2{4};
+    double initial1[] = {1,2,3,4,5,6,7,8,9,8,7,6,0,0,0,1};
+    double initial2[] = {2,2,3,4,5,6,7,8,9,8,7,6,0,0,0,1};
+    m1.from_array(initial1);
+    m2.from_array(initial2);
+    REQUIRE(m1 != m2);
+}
 
-Scenario: Matrix equality with identical matrices
-  Given the following matrix A:
-      | 1 | 2 | 3 | 4 |
-      | 5 | 6 | 7 | 8 |
-      | 9 | 8 | 7 | 6 |
-      | 0 | 0 | 0 | 1 |
-    And the following matrix B:
-      | 1 | 2 | 3 | 4 |
-      | 5 | 6 | 7 | 8 |
-      | 9 | 8 | 7 | 6 |
-      | 0 | 0 | 0 | 1 |
-  Then A = B
+TEST_CASE("Matrix multiplication -- matrix")
+{
+    Matrix m1{4};
+    Matrix m2{4};
+    double initial1[] = { 1,2,3,4,5,6,7, 8,9,8,7,6,0,0,0,1};
+    double initial2[] = {-2,1,2,3,3,2,1,-1,4,3,6,5,0,0,0,1};
+    m1.from_array(initial1);
+    m2.from_array(initial2);
+    
+    Matrix m3{4};
+    double result[] = {16,14,22,20,36,38,58,52,34,46,68,60,0,0,0,1};
+    m3.from_array(result);
 
-Scenario: Matrix equality with different matrices
-  Given the following matrix A:
-      | 1 | 2 | 3 | 4 |
-      | 5 | 6 | 7 | 8 |
-      | 9 | 8 | 7 | 6 |
-      | 0 | 0 | 0 | 1 |
-    And the following matrix B:
-      | 2 | 3 | 4 | 5 |
-      | 6 | 7 | 8 | 9 |
-      | 8 | 7 | 6 | 5 |
-      | 0 | 0 | 0 | 1 |
-  Then A != B
+    REQUIRE(m1 * m2 == m3);
+}
 
-Scenario: Multiplying two matrices
-  Given the following matrix A:
-      | 1 | 2 | 3 | 4 |
-      | 5 | 6 | 7 | 8 |
-      | 9 | 8 | 7 | 6 |
-      | 0 | 0 | 0 | 1 |
-    And the following matrix B:
-      | -2 | 1 | 2 |  3 |
-      |  3 | 2 | 1 | -1 |
-      |  4 | 3 | 6 |  5 |
-      |  0 | 0 | 0 |  1 |
-  Then A * B is the following 4x4 matrix:
-      | 16|  14 |  22 |  20 |
-      | 36|  38 |  58 |  52 |
-      | 34|  46 |  68 |  60 |
-      |  0|   0 |   0 |   1 |
+TEST_CASE("Matrix multiplication -- tuple")
+{
+    Matrix m{4};
+    double initial[] = {1,2,3,4,
+                        2,4,4,2,
+                        8,6,4,1,
+                        0,0,0,1};
+    m.from_array(initial);
 
-Scenario: A matrix multiplied by a tuple
-  Given the following matrix A:
-      | 1 | 2 | 3 | 4 |
-      | 2 | 4 | 4 | 2 |
-      | 8 | 6 | 4 | 1 |
-      | 0 | 0 | 0 | 1 |
-    And b ← tuple(1, 2, 3, 1)
-  Then A * b = tuple(18, 24, 33, 1)
+    Tuple t{1,2,3,1};
+    REQUIRE(m * t == Tuple{18,24,33,1});
+}
 
-Scenario: Multiplying a matrix by the identity matrix
-  Given the following matrix A:
-    | 0 | 1 |  2 |  4 |
-    | 1 | 2 |  4 |  8 |
-    | 2 | 4 |  8 | 16 |
-    | 0 | 0 |  0 |  1 |
-  Then A * identity_matrix = A
+TEST_CASE("Matrix multiplication -- identity")
+{
+    Matrix m{4};
+    double initial[] = {1,2,3,4,2,4,4,2,8,6,4,1,0,0,0,1};
+    m.from_array(initial);
 
-Scenario: Multiplying the identity matrix by a tuple
-  Given a ← tuple(1, 2, 3, 4)
-  Then identity_matrix * a = a
+    REQUIRE(m * Matrix::identity(4) == m);
+}
 
-Scenario: Calculating the determinant of a 2x2 matrix
-  Given the following 2x2 matrix A:
-    |  1 | 5 |
-    | -3 | 2 |
-  Then determinant(A) = 17
+TEST_CASE("Matrix multiplication -- identity with tuple")
+{
+    Tuple a{1, 2, 3, 4};
+    REQUIRE(Matrix::identity(4) * a == a);
+}
 
-Scenario: A submatrix of a 3x3 matrix is a 2x2 matrix
-  Given the following 3x3 matrix A:
-    |  1 | 5 |  0 |
-    | -3 | 2 |  7 |
-    |  0 | 6 | -3 |
-  Then submatrix(A, 0, 2) is the following 2x2 matrix:
-    | -3 | 2 |
-    |  0 | 6 |
+TEST_CASE("Matrix determinant: 2x2")
+{
+    Matrix m{2};
+    double initial[] = {1, 5, -3, 2};
+    m.from_array(initial);
+
+    REQUIRE(m.determinant() == 17);
+}
+
+TEST_CASE("Submatrix: 3x3")
+{
+    Matrix m{3};
+    double initial[] = {1,5,0,-3,2,7,0,6,3};
+    m.from_array(initial);
+    Matrix t{2};
+    double target[] = {-3,2,0,6};
+    t.from_array(target);
+    REQUIRE(m.submatrix(0, 2) == t);
+}
+
+TEST_CASE("Minor: 3x3")
+{
+    Matrix m{3};
+    double initial[] = {3, 5, 0, 2, -1, -7, 6, -1, 5};
+    m.from_array(initial);
+    Matrix s = m.submatrix(1, 0);
+    REQUIRE(s.determinant() == 25);
+    REQUIRE(m.minor(1, 0) == 25);
+}
+/*
 
 Scenario: Calculating a minor of a 3x3 matrix
   Given the following 3x3 matrix A:
@@ -490,11 +491,9 @@ TEST_CASE("Intersecting a scaled sphere with a ray")
 {
 	Ray r{Point(0, 0, -5), Vector(0, 0, 1)};
 	Sphere s;
-    Matrix m = Matrix::scale(Tuple(2, 2, 2, 0));
-	s.transform = m;
+	s.transform = Matrix::scale(Tuple(2, 2, 2, 0));
 	auto i = s.intersects_with(r);
 	std::vector<double> target = {3, 7};
-    int x = 0;
 }
 
 /*

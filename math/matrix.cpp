@@ -2,9 +2,7 @@
 #include <iostream>
 
 Matrix::Matrix() : Matrix(4)
-{
-
-}
+{}
 
 Matrix::Matrix(int n) : 
     size(n), 
@@ -38,13 +36,11 @@ Matrix::Matrix(const Matrix& m) : Matrix(m.size)
 }
 
 Matrix::Matrix(Matrix&& m) noexcept :
+    data(std::exchange(m.data, nullptr)),
     size(std::exchange(m.size, 0)),
     inverse(std::exchange(m.inverse, nullptr)),
-    stored_determinant(std::exchange(m.stored_determinant, nullptr)),
-    data(std::exchange(m.data, nullptr))
-{
-
-}
+    stored_determinant(std::exchange(m.stored_determinant, nullptr))
+{}
 
 Matrix& Matrix::operator=(const Matrix& m)
 {
@@ -118,6 +114,15 @@ Matrix Matrix::translate(Tuple t)
     return result;
 }
 
+Matrix Matrix::identity(int n)
+{
+    Matrix result{n};
+    for (int i = 0; i < n; ++i) {
+        result[i][i] = 1;
+    }
+    return result;
+}
+
 void Matrix::store_determinant()
 {
     double result = 0;
@@ -146,24 +151,38 @@ double Matrix::determinant()
 Matrix Matrix::submatrix(int i, int j) 
 {
     Matrix submatrix{size-1};
-    for (int x = 0; x < size - 1; ++x) {
-        for (int y = 0; y < size - 1; ++y) {
-            int adjusted_x = (x + i + (x > i ? 1 : 0)) % (size - 1);
-            int adjusted_y = (y + j + (y > j ? 1 : 0)) % (size - 1);
-            submatrix.data[adjusted_x][adjusted_y] = data[x][y]; 
+    
+    int x = 0;
+    int y = 0;
+    for (int si = 0; si < size - 1; ++si) {
+        if (x == i) {
+            x++;
+            si--;
+            continue;
         }
+        for (int sj = 0; sj < size - 1; ++sj) {
+            if (y == j) {
+                y++; 
+                sj--;
+                continue;
+            } else {
+                submatrix[si][sj] = data[x][y++];
+            }
+        }
+        x++;
     }
+
     return submatrix;
 }
 
 double Matrix::minor(int i, int j)
 {
-    return abs(cofactor(i, j));
+    return submatrix(i, j).determinant();
 }
 
 double Matrix::cofactor(int i, int j)
 {
-    return submatrix(i, j).determinant();
+    return ((i + 2) % 2 == 0) ? minor(i, j) : -minor(i, j);
 }
 
 Matrix Matrix::transpose()
@@ -177,24 +196,26 @@ Matrix Matrix::transpose()
     return result;
 }
 
-Tuple operator*(const Tuple& t, const Matrix& m)
+Tuple operator*(const Matrix& m, const Tuple& t)
 {
     // horrible hack to access the tuple like an array
-    auto access = [](const Tuple& t, int i) -> const double& {
+    // need assignable lvalue for result and const for argument 
+    // so make it mutable and const_cast t because we aren't changing t
+    auto access = [](Tuple& t, int i) -> double& {
         if (i == 0) return t.x;
         if (i == 1) return t.y;
         if (i == 2) return t.z;
         if (i == 3) return t.w;
         return t.x;
     };
-    double totals[4];
+    Tuple result;
     for (int n = 0; n < m.size; ++n) {
-        totals[n] = 0;
-        for (int element = 0; element < m.size; ++element) {
-            totals[n] += m.data[element][n] * access(t, n);
+        access(result, n) = 0;
+        for (int i = 0; i < m.size; ++i) {
+            access(result, n) += m.data[n][i] * access(const_cast<Tuple&>(t), i);
         }
     }
-    return Tuple(totals[0], totals[1], totals[2], totals[3]);
+    return result;
 }
 
 Matrix Matrix::operator*(const Matrix& m)
@@ -236,4 +257,3 @@ double *&Matrix::operator[] (int i)
 {
     return data[i];
 }
-

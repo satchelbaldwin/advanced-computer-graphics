@@ -1,5 +1,6 @@
 #pragma once
 #include "math.h"
+#include <fstream>
 
 class Vector;
 class Point;
@@ -12,6 +13,7 @@ public:
 	T z;
 	T w;
 	V3(T x_, T y_, T z_, T w_) : x(x_), y(y_), z(z_), w(w_) {}
+	V3() : x(0), y(0), z(0), w(0) {}
 
 	// addition
 	template <class T2>
@@ -111,6 +113,12 @@ auto cross(const V3<T1>& v1, const V3<T2>& v2) -> V3<decltype(v1.y * v2.z - v1.z
 		v1.x * v2.y - v1.y * v2.x,
 		0.0 // vector
 	);
+}
+
+template <class T>
+std::ostream& operator <<( std::ostream& os, V3<T> const& v ) {
+    os << "{" << v.x << ", " << v.y << ", " << v.z << ", " << v.z << "}";
+    return os;
 }
 
 typedef V3<double> Tuple;
