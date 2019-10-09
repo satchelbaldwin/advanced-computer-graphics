@@ -61,6 +61,10 @@ public:
     static Matrix translate(Tuple);
     static Matrix identity(int);
 
+    static Matrix rotate_x(double degrees);
+    static Matrix rotate_y(double degrees);
+    static Matrix rotate_z(double degrees);
+
     Matrix operator*(const Matrix&);
     bool operator==(const Matrix&) const;
     bool operator!=(const Matrix& m) const 

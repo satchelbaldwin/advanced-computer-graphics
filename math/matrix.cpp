@@ -71,13 +71,13 @@ void Matrix::store_inverse()
     if (!invertable())
         throw std::runtime_error("Matrix isn't invertable (det is 0)");
     for (int x = 0; x < size; ++x) {
-        for (int y = 0; y < size; y++) {
+        for (int y = 0; y < size; ++y) {
             (*inverse)[x][y] = cofactor(x, y);
         }
     }
-    inverse->transpose();
+    *inverse = inverse->transpose();
     for (int x = 0; x < size; ++x) {
-        for (int y = 0; y < size; y++) {
+        for (int y = 0; y < size; ++y) {
             (*inverse)[x][y] /= determinant();
         }
     }
@@ -121,6 +121,36 @@ Matrix Matrix::identity(int n)
         result[i][i] = 1;
     }
     return result;
+}
+
+Matrix Matrix::rotate_x(double degrees)
+{
+    /*
+    [1  0 0 0]
+    [0  c s 0]
+    [0 -s c 0]
+    [0  0 0 1]
+    */
+}
+
+Matrix Matrix::rotate_y(double degrees)
+{
+    /*
+    [c 0 -s 0]
+    [0 1  0 0]
+    [s 0  c 0]
+    [0 0  0 1]
+    */
+}
+
+Matrix Matrix::rotate_z(double degrees)
+{
+    /*
+    [ c s 0 0]
+    [-s c 0 0]
+    [ 0 0 1 0]
+    [ 0 0 0 1]
+    */
 }
 
 void Matrix::store_determinant()
@@ -183,7 +213,7 @@ double Matrix::minor(int i, int j)
 
 double Matrix::cofactor(int i, int j)
 {
-    return ((i + 2) % 2 == 0) ? minor(i, j) : -minor(i, j);
+    return ((i + j) % 2 == 0) ? minor(i, j) : -minor(i, j);
 }
 
 Matrix Matrix::transpose()

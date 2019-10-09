@@ -1,5 +1,7 @@
 #pragma once
 #include "math/math.hpp"
+#include "scene.hpp"
+#include "canvas/canvas.hpp"
 
 // perspective camera
 class Camera
@@ -15,5 +17,7 @@ public:
     Vector forward;
     Vector up;
     Vector right;
+
+    void render_scene(Canvas const*, const Scene&);
 };
 

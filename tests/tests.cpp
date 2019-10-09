@@ -411,6 +411,40 @@ TEST_CASE("Minor: 3x3")
     REQUIRE(s.determinant() == 25);
     REQUIRE(m.minor(1, 0) == 25);
 }
+
+TEST_CASE("Inverse: 4x4")
+{
+    Matrix m{4};
+    double initial[] = {-5, 2,6,-8,1,-5,1,8,7,7,-6,-7,0,0,0,1};
+    Matrix target{4};
+    double t[] = {0.1411,0.33129,0.19632,-0.14724,0.07975,-0.07362,0.06748,1.69939,0.25767,0.30061,0.14110,0.64417,0,0,0,1};
+    m.from_array(initial);
+    target.from_array(t);
+    REQUIRE((*m.get_inverse()) == target);
+}
+/*
+
+
+
+
+
+Scenario: Calculating the inverse of a matrix
+  Given the following 4x4 matrix A:
+      | -5 |  2 |  6 | -8 |
+      |  1 | -5 |  1 |  8 |
+      |  7 |  7 | -6 | -7 |
+      |  0 |  0 |  0 |  1 |
+    And B ← inverse(A)
+  Then B is the following 4x4 matrix:
+      |  0.14110 |  0.33129 |  0.19632 | -0.14724 |
+      |  0.07975 | -0.07362 |  0.06748 |  1.69939 |
+      |  0.25767 |  0.30061 |  0.14110 |  0.64417 |
+      |  0.0     |  0.0     |  0.0     |  1.0     |
+
+
+ */
+
+
 /*S
 
 Scenario: Calculating a cofactor of a 3x3 matrix

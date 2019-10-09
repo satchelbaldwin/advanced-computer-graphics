@@ -16,6 +16,7 @@ BUILD_DIR = ./build
 CPP = $(wildcard canvas/*.cpp) \
 	$(wildcard geometry/*.cpp) \
 	$(wildcard lighting/*.cpp) \
+	$(wildcard scene/*.cpp)    \
 	$(wildcard math/*.cpp)
 
 OBJ = $(CPP:%.cpp=$(BUILD_DIR)/%.o)

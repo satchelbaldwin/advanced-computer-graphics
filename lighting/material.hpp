@@ -31,13 +31,13 @@ public:
 
     Color color_at_point(HitRecord, std::vector<PointLight>);
     /*
-        diffuse color: colorLight * colorObj * cos? * diffuse
+        diffuse color: colorLight * colorObj * cos of angle between light vector and normal * diffuse
         ambient color: colorLight * colorObj * ambient
         emission color: colorObj * emission
         specular color: specIntensity * specular * colorLight
 
-        diffuseIntensity: max( unitvector to light . unit vector to normal,  0)
-        specular intensity: max(unitvector to light reflected . unit vector to origin of ray, 0 )
+        diffuseIntensity: max( unitvector to light . unit vector normal,  0)
+        specular intensity: max(unitvector to light reflected . unit vector to origin of ray (eye), 0 )
         raise specintensity to the power of shininess (phong)
      */
 };
