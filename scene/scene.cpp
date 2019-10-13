@@ -3,22 +3,26 @@
 #include "lighting/light.hpp"
 #include "lighting/material.hpp"
 
-void Scene::add_object(const Object& o)
+#include <iostream>
+
+void Scene::add_object(Object* o)
 {
-    objects.push_back(o);
+    objects.push_back(std::make_shared<Object>(*o));
 }
 
-void Scene::add_light(const PointLight& pl)
+void Scene::add_light(PointLight* pl)
 {
-    lights.push_back(pl);
+    lights.push_back(std::make_shared<PointLight>(*pl));
 }
 
 std::vector<Intersection> Scene::intersections_with(Ray& ray)
 {
     std::vector<Intersection> intersections;
-    for (auto object : objects) {
-        for (auto intersection : object.intersects_with(ray)) {
-            intersections.push_back(intersection);
+    for (auto& object : objects) {
+        std::vector<Intersection> obj_i = object->intersects_with(ray);
+        for (Intersection& i : obj_i) {
+            std::cout << " " << i.t << std::endl;
+            intersections.push_back(i);
         }
     }
     std::sort(intersections.begin(), intersections.end());

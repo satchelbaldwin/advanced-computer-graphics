@@ -5,11 +5,11 @@
 
 class Scene {
 public:
-    std::vector<Object> objects;
-    std::vector<PointLight> lights;
+    std::vector<std::shared_ptr<Object>> objects;
+    std::vector<std::shared_ptr<PointLight>> lights;
     
-    void add_object(const Object&);
-    void add_light(const PointLight&);
+    void add_object(Object*);
+    void add_light(PointLight*);
     std::vector<Intersection> intersections_with(Ray&);
     Color color_at_intersection(Intersection&);
 };

@@ -3,14 +3,15 @@
 #include "lighting/material.hpp"
 #include "geometry/intersection.hpp"
 #include <vector>
+#include <iostream>
 
 class Object {
 public:
 	Object();
 	Matrix transform;
 	Material material;
-	virtual std::vector<Intersection> intersects_with(Ray&) = 0;
-	virtual Vector normal_at(Point&) = 0;
+	virtual std::vector<Intersection> intersects_with(Ray&) {std::cout << "AAA";};
+	virtual Vector normal_at(Point&) {};
 
 	void scale(const Tuple&);
 	void translate(const Tuple&);

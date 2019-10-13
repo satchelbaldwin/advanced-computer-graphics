@@ -1,4 +1,5 @@
 #include "sphere.hpp"
+#include <iostream>
 
 Sphere::Sphere() {}
 

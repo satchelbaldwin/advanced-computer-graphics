@@ -29,7 +29,7 @@ public:
     double emission;
     double shininess;
 
-    Color color_at_point(HitRecord, std::vector<PointLight>);
+    Color color_at_point(HitRecord, std::vector<std::shared_ptr<PointLight>>);
     /*
         diffuse color: colorLight * colorObj * cos of angle between light vector and normal * diffuse
         ambient color: colorLight * colorObj * ambient

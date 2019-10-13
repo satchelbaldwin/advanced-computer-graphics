@@ -13,6 +13,7 @@ public:
     Point origin;
     int width;
     int height;
+    double aspect;
     Matrix transform;
     Vector forward;
     Vector up;
