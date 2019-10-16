@@ -1,7 +1,7 @@
 #include "sphere.hpp"
 #include <iostream>
 
-Sphere::Sphere() {}
+Sphere::Sphere() : Object() {}
 
 std::vector<Intersection> Sphere::intersects_with(Ray& ray)
 {

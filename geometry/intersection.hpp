@@ -8,6 +8,7 @@ public:
     Vector normal;
     Vector eye;
     bool is_inside;
+    Point overpoint;
 };
 
 class Object;

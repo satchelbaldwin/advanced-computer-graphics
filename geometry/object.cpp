@@ -1,7 +1,7 @@
 #include "object.hpp"
 #include <vector>
 
-Object::Object() 
+Object::Object() : transform(Matrix::identity(4))
 {
 
 }
