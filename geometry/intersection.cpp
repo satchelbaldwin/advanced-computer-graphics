@@ -15,6 +15,7 @@ HitRecord Intersection::hitrecord()
     }
 
     h.overpoint = h.hit_point + (h.normal * 0.005);
+    h.overpoint = h.hit_point - (h.normal * 0.005);
 
     return h;
 }

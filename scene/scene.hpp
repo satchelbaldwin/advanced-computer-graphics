@@ -12,4 +12,6 @@ public:
     void add_light(PointLight*);
     std::vector<Intersection> intersections_with(Ray&);
     Color color_at_intersection(Intersection&);
+
+    Color color_with_ray(const Ray&);
 };

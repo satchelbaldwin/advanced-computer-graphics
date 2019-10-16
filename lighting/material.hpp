@@ -4,6 +4,7 @@
 #include "geometry/intersection.hpp"
 #include <vector>
 
+class Scene;
 class Material {
 public:
     Material(){}
@@ -28,8 +29,9 @@ public:
     double specular;
     double emission;
     double shininess;
+    double reflectivity;
 
-    Color color_at_point(HitRecord, std::vector<std::shared_ptr<PointLight>>);
+    Color color_at_point(HitRecord, Scene&);
     /*
         diffuse color: colorLight * colorObj * cos of angle between light vector and normal * diffuse
         ambient color: colorLight * colorObj * ambient

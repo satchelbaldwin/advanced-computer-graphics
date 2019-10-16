@@ -22,11 +22,16 @@ CPP = $(wildcard canvas/*.cpp) \
 OBJ = $(CPP:%.cpp=$(BUILD_DIR)/%.o)
 DEP = $(OBJ:%.o=%.d)
 
+T_CPP = $(wildcard tests/unit/*.cpp) 
+T_OBJ = $(T_CPP:%.cpp=$(BUILD_DIR)/%.o)
+T_DEP = $(T_OBJ:%.o=%.d)
+
 .PHONY : lib
 
 test : $(BUILD_DIR)/bin/test
 first-image: $(BUILD_DIR)/bin/first-image
 second-image : $(BUILD_DIR)/bin/second-image
+live : $(BUILD_DIR)/bin/live
 
 # Actual target of the binary - depends on all .o files.
 $(BUILD_DIR)/bin/test : build/tests/tests.o $(OBJ) $(CXX_FLAGS)
@@ -35,18 +40,16 @@ $(BUILD_DIR)/bin/test : build/tests/tests.o $(OBJ) $(CXX_FLAGS)
     # Just link all the object files.
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-# Actual target of the binary - depends on all .o files.
 $(BUILD_DIR)/bin/first-image : build/tests/first-image.o $(OBJ) $(CXX_FLAGS)
-    # Create build directories - same structure as sources.
 	mkdir -p $(@D)
-    # Just link all the object files.
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-# Actual target of the binary - depends on all .o files.
 $(BUILD_DIR)/bin/second-image : build/tests/second-image.o $(OBJ) $(CXX_FLAGS)
-    # Create build directories - same structure as sources.
 	mkdir -p $(@D)
-    # Just link all the object files.
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+$(BUILD_DIR)/bin/live : build/tests/live.o $(OBJ) $(CXX_FLAGS)
+	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 # Build target for every single object file.

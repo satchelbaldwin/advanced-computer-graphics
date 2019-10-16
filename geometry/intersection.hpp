@@ -9,6 +9,7 @@ public:
     Vector eye;
     bool is_inside;
     Point overpoint;
+    Point underpoint;
 };
 
 class Object;
