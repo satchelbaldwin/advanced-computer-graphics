@@ -65,6 +65,13 @@ void Matrix::from_array(double *d)
     }
 }
 
+Matrix Matrix::from(int size, double *d)
+{
+    Matrix m = Matrix(size);
+    m.from_array(d);
+    return m;
+}
+
 void Matrix::store_inverse()
 {
     inverse = std::shared_ptr<Matrix>(new Matrix());

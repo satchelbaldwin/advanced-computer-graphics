@@ -42,5 +42,11 @@ Color Material::color_at_point(HitRecord r, Scene& scene)
     // color = world -> color from ray (r)  *   self reflectiveness
     // added to all of the other colors.
 
+    // refraction
+    Ray refracted = Ray();
+    refracted.direction = Vector(0, 0, 0); // see notes!
+    refracted.origin = r.underpoint;
+    Color refracted_color = scene.color_with_ray(refracted) * transparency;
+
     return total;
 }

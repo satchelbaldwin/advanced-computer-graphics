@@ -17,6 +17,30 @@ HitRecord Intersection::hitrecord()
     h.overpoint = h.hit_point + (h.normal * 0.005);
     h.overpoint = h.hit_point - (h.normal * 0.005);
 
+/*
+
+    vector v
+    for intersection in intersection
+        if intersection is self
+            if nothing in v
+                ior_inc = 1
+            else
+                ior_inc = v[-1]->object->material->ior
+        
+    last object in v -> ior incoming
+
+    if v/containers contains an intersection w/ the same object
+        we're leaving
+        pop out of v
+    otherwise
+        add to v
+
+    if intersections is self
+        if v is empty
+            ior_t = 1 (leaaaaaaaaaaaaaaaaaaaaaaaaaving          )
+*/
+
+
     return h;
 }
 

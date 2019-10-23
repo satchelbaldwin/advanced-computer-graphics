@@ -45,6 +45,7 @@ public:
     Matrix& operator=(Matrix&&) noexcept;
 
     void from_array(double*);
+    static Matrix from(int, double*);
 
     void store_inverse();
     std::shared_ptr<Matrix> get_inverse();

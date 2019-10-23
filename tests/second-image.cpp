@@ -1,6 +1,7 @@
 #include "math/math.hpp"
 #include "canvas/canvas.hpp"
 #include "geometry/sphere.hpp"
+#include "geometry/triangle.hpp"
 #include "scene/scene.hpp"
 #include "scene/camera.hpp"
 #include <iostream>
@@ -13,14 +14,18 @@ int main(int argc, char **argv)
 
 	Sphere s;
     s.material = Material(Color(1, 0.2, 1),0.9,0.1,0.9,0,200.0);
+
+    Triangle t(Point{3, 2, 0}, Point{-3, -2, 0}, Point{1, -5, 3});
+    t.material = Material(Color(1, 0.2, 1),0.9,0.1,0.9,0,200.0);
+
 	PointLight pl = PointLight(Point{-10, 10, -10}, Color(1, 1, 1));
 
     //s.scale(Tuple(1, 1, 1, 1));
+    //scene.add_object(s);
+    scene.add_object(t);
+    scene.add_light(pl);
 
-    scene.add_object(&s);
-    scene.add_light(&pl);
-
-    scene.objects.push_back(std::make_shared<Sphere>(s));
+    //scene.objects.push_back(std::make_shared<Triangle>(t));
 
     // does nothing
     camera.render_scene(&canvas, scene);

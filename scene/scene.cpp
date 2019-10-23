@@ -2,18 +2,7 @@
 #include <algorithm>
 #include "lighting/light.hpp"
 #include "lighting/material.hpp"
-
 #include <iostream>
-
-void Scene::add_object(Object* o)
-{
-    objects.push_back(std::make_shared<Object>(*o));
-}
-
-void Scene::add_light(PointLight* pl)
-{
-    lights.push_back(std::make_shared<PointLight>(*pl));
-}
 
 std::vector<Intersection> Scene::intersections_with(Ray& ray)
 {

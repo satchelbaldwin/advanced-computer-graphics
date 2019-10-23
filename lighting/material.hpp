@@ -30,6 +30,8 @@ public:
     double emission;
     double shininess;
     double reflectivity;
+    double transparency; 
+    double ior = 1;
 
     Color color_at_point(HitRecord, Scene&);
     /*

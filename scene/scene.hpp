@@ -8,8 +8,18 @@ public:
     std::vector<std::shared_ptr<Object>> objects;
     std::vector<std::shared_ptr<PointLight>> lights;
     
-    void add_object(Object*);
-    void add_light(PointLight*);
+    template <class T>
+    void add_object(const T& o)
+    {
+        objects.push_back(std::make_shared<T>(o));
+    }
+
+    template <class T>
+    void add_light(const T& l)
+    {
+        lights.push_back(std::make_shared<T>(l));
+    }
+
     std::vector<Intersection> intersections_with(Ray&);
     Color color_at_intersection(Intersection&);
 
