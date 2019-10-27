@@ -25,7 +25,6 @@ scale(2) -> translate(1, 0, 0) != translate(1, 0, 0) -> scale(2)
 
 #include <memory>
 #include "v3.hpp"
-#include <fstream>
 
 class Matrix {
 public:
@@ -91,7 +90,5 @@ public:
         return os; 
     }   
 };
-
-
 
 Tuple operator*(const Matrix& m, const Tuple& t);

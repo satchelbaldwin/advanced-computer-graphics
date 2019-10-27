@@ -1,5 +1,5 @@
 #include "matrix.hpp"
-#include <iostream>
+#include "math.hpp"
 
 Matrix::Matrix() : Matrix(4)
 {}
@@ -109,6 +109,7 @@ Matrix Matrix::scale(Tuple t)
     result.data[0][0] = t.x;
     result.data[1][1] = t.y;
     result.data[2][2] = t.z;
+    result.data[3][3] = 1;
     return result;
 }
 
@@ -118,6 +119,11 @@ Matrix Matrix::translate(Tuple t)
     result.data[0][3] = t.x;
     result.data[1][3] = t.y;
     result.data[2][3] = t.z;
+
+    result.data[0][0] = 1;
+    result.data[1][1] = 1;
+    result.data[2][2] = 1;
+    result.data[3][3] = 1;
     return result;
 }
 
@@ -132,32 +138,59 @@ Matrix Matrix::identity(int n)
 
 Matrix Matrix::rotate_x(double degrees)
 {
-    /*
-    [1  0 0 0]
-    [0  c s 0]
-    [0 -s c 0]
-    [0  0 0 1]
-    */
+    /*  [1  0 0 0]
+        [0  c s 0]
+        [0 -s c 0]
+        [0  0 0 1]  */
+    Matrix result{4};
+    double r = degrees_to_radians(degrees);
+
+    result[0][0] =  1;
+    result[1][1] =  cos(r);
+    result[2][1] = -sin(r);
+    result[1][2] =  sin(r);
+    result[2][2] =  cos(r);
+    result[3][3] =  1;
+    
+    return result;
 }
 
 Matrix Matrix::rotate_y(double degrees)
 {
-    /*
-    [c 0 -s 0]
-    [0 1  0 0]
-    [s 0  c 0]
-    [0 0  0 1]
-    */
+    /*  [c 0 -s 0]
+        [0 1  0 0]
+        [s 0  c 0]
+        [0 0  0 1]  */
+    Matrix result{4};
+    double r = degrees_to_radians(degrees);
+
+    result[0][0] =  cos(r);
+    result[0][2] = -sin(r);
+    result[1][1] =  1;
+    result[2][0] =  sin(r);
+    result[2][2] =  cos(r);
+    result[3][3] =  1;
+    
+    return result;
 }
 
 Matrix Matrix::rotate_z(double degrees)
 {
-    /*
-    [ c s 0 0]
-    [-s c 0 0]
-    [ 0 0 1 0]
-    [ 0 0 0 1]
-    */
+    /*  [ c s 0 0]
+        [-s c 0 0]
+        [ 0 0 1 0]
+        [ 0 0 0 1]  */
+    Matrix result{4};
+    double r = degrees_to_radians(degrees);
+
+    result[0][0] =  cos(r);
+    result[0][1] =  sin(r);
+    result[1][0] = -sin(r);
+    result[1][1] =  cos(r);
+    result[2][2] =  1;
+    result[3][3] =  1;
+    
+    return result;
 }
 
 void Matrix::store_determinant()

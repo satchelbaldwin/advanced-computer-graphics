@@ -2,8 +2,10 @@
 
 Sphere::Sphere() : Object() {}
 
-std::vector<Intersection> Sphere::intersects_with(Ray& ray)
+std::vector<Intersection> Sphere::intersects_with(Ray& original_ray)
 {
+	Ray ray = *(transform.get_inverse()) * original_ray;
+
 	Vector adjusted_origin = ray.origin - Point(0, 0, 0);
 	double a = ray.direction.dot(ray.direction);
 	double b = ray.direction.dot(adjusted_origin) * 2;
@@ -12,7 +14,7 @@ std::vector<Intersection> Sphere::intersects_with(Ray& ray)
 	std::vector<Intersection> v;
 	auto make_intersection = [&](double t) -> Intersection
 	{
-		return Intersection(t, ray, this);
+		return Intersection(t, original_ray, this);
 	};
 
 	if (discriminant < 0) {

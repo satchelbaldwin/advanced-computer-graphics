@@ -2,34 +2,62 @@
 #include "canvas/canvas.hpp"
 #include "geometry/sphere.hpp"
 #include "geometry/triangle.hpp"
+#include "geometry/plane.hpp"
 #include "scene/scene.hpp"
 #include "scene/camera.hpp"
 #include <iostream>
 
 int main(int argc, char **argv)
 {
-	Canvas canvas{250, 250};
+	Canvas canvas{1000, 500};
     Scene scene;
-    Camera camera;
+    Camera camera{60, 1000, 500};
 
-	Sphere s;
-    s.material = Material(Color(1, 0.2, 1),0.9,0.1,0.9,0,200.0);
+    // Testing scene
+    Sphere floor{};
+    floor.scale(Vector(10, 0.01, 10));
+    floor.material.color = Color(1, 0.9, 0.9);
+    floor.material.specular = 0;
 
-    Triangle t(Point{3, 2, 0}, Point{-3, -2, 0}, Point{1, -5, 3});
-    t.material = Material(Color(1, 0.2, 1),0.9,0.1,0.9,0,200.0);
+    Sphere left_wall{};
+    left_wall.scale(Vector(10, 0.01, 10));
+    left_wall.rotate(Vector(90, -45, 0));
+    left_wall.translate(Vector(0, 0, 5));
+    left_wall.material = floor.material;
 
-	PointLight pl = PointLight(Point{-10, 10, -10}, Color(1, 1, 1));
+    Sphere right_wall{};
+    right_wall.scale(Vector(10, 0.01, 10));
+    right_wall.rotate(Vector(90, 45, 0));
+    right_wall.translate(Vector(0, 0, 5));
+    right_wall.material = floor.material;
+	
+    Sphere middle{};
+    middle.translate(Vector(-0.5, 1, 0.5));
+    middle.material.color = Color(0.1, 1, 0.5);
+    middle.material.diffuse = 0.7;
+    middle.material.specular = 0.3;
 
-    //s.scale(Tuple(1, 1, 1, 1));
-    //scene.add_object(s);
-    scene.add_object(t);
-    scene.add_light(pl);
+    Sphere right{};
+    right.scale(Vector(0.5, 0.5, 0.5));
+    right.translate(Vector(1.5, 0.5, -0.5));
+    right.material.color = Color(0.1, 1, 0.5);
+    right.material.diffuse = 0.7;
+    right.material.specular = 0.3;
 
-    //scene.objects.push_back(std::make_shared<Triangle>(t));
+    scene.add_object(floor);
+    scene.add_object(left_wall);
+    scene.add_object(right_wall);
+    scene.add_object(middle);
+    scene.add_object(right);
 
-    // does nothing
+    PointLight light{Point(-10, 10, -10), Color(1,1,1)};
+    scene.add_light(light);
+
+    camera.set_transformation(Vector(0, 1.5, -5), Vector(0, 1, 0), Vector(0, 1, 0));
+
     camera.render_scene(&canvas, scene);
 
+/*
     Vector origin{0, 0, -5};
     for (int i = 0; i < canvas.height; ++i) {
         double y = 2 - (double)i / (canvas.height / 4);
@@ -47,7 +75,7 @@ int main(int argc, char **argv)
 
         }
     }
-
+*/
 	canvas.write("second-image.ppm");
 
 	return 0;

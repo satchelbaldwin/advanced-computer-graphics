@@ -4,3 +4,16 @@
 #include "vector.hpp"
 #include "ray.hpp"
 #include "matrix.hpp"
+
+#define EPSILON 0.00005
+#define PI      3.141592653589793238463
+
+inline double degrees_to_radians(double degrees)
+{
+    return (degrees * PI / 180.);
+}
+
+inline double radians_to_degrees(double radians)
+{
+    return (radians * 180. / PI);
+}

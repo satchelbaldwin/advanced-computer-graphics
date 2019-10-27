@@ -33,6 +33,8 @@ public:
     double transparency; 
     double ior = 1;
 
+    static const Material default_material;
+
     Color color_at_point(HitRecord, Scene&);
     /*
         diffuse color: colorLight * colorObj * cos of angle between light vector and normal * diffuse

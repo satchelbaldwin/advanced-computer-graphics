@@ -22,7 +22,12 @@ Color Scene::color_at_intersection(Intersection& i)
     return i.object->material.color_at_point(i.hitrecord(), *this);
 }
 
-Color Scene::color_with_ray(const Ray& r)
+Color Scene::color_with_ray(Ray& r)
 {
-
+    auto intersections = intersections_with(r);
+    for (auto in : intersections) {
+        if (in.t > 0) {
+            return color_at_intersection(in);
+        }
+    }
 }

@@ -18,4 +18,5 @@ public:
 
 	void scale(const Tuple&);
 	void translate(const Tuple&);
+	void rotate(const Tuple&);
 };

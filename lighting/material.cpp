@@ -6,6 +6,15 @@
 #include <memory>
 #include "scene/scene.hpp"
 
+const Material Material::default_material = Material(
+    Color(1, 0.2, 1),
+    0.9,
+    0.1,
+    0.9,
+    0,
+    200.0
+);
+
 Color Material::color_at_point(HitRecord r, Scene& scene)
 {
     Color total = Color(0, 0, 0);
@@ -34,6 +43,8 @@ Color Material::color_at_point(HitRecord r, Scene& scene)
         total = total + color;
     }
     
+    /*
+
     // reflectivity
     Ray reflected = Ray();
     reflected.direction = reflect(r.eye, r.normal);
@@ -47,6 +58,8 @@ Color Material::color_at_point(HitRecord r, Scene& scene)
     refracted.direction = Vector(0, 0, 0); // see notes!
     refracted.origin = r.underpoint;
     Color refracted_color = scene.color_with_ray(refracted) * transparency;
+
+    */
 
     return total;
 }

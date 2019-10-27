@@ -15,3 +15,4 @@ public:
 	Point point_at(double);
 };
 
+Ray operator*(const Matrix& m, const Ray& r);

@@ -2,10 +2,18 @@
 
 Plane::Plane() {}
 
-std::vector<Intersection> Plane::intersects_with(Ray& ray)
+std::vector<Intersection> Plane::intersects_with(Ray& original_ray)
 {
+    Ray ray = *(transform.get_inverse()) * original_ray;
 
-}
+    std::vector<Intersection> intersections;
+    if (abs(ray.direction.y) < EPSILON) {
+        return intersections;
+    }
+    double t = -ray.origin.y / ray.direction.y;
+    intersections.push_back(Intersection{t, ray, this});    
+    return intersections;
+} 
 
 Vector Plane::normal_at(Point& p)
 {

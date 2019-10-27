@@ -23,5 +23,5 @@ public:
     std::vector<Intersection> intersections_with(Ray&);
     Color color_at_intersection(Intersection&);
 
-    Color color_with_ray(const Ray&);
+    Color color_with_ray(Ray&);
 };
