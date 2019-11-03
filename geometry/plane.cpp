@@ -7,7 +7,7 @@ std::vector<Intersection> Plane::intersects_with(Ray& original_ray)
     Ray ray = *(transform.get_inverse()) * original_ray;
 
     std::vector<Intersection> intersections;
-    if (abs(ray.direction.y) < EPSILON) {
+    if (abs(ray.direction.y) < 0) {
         return intersections;
     }
     double t = -ray.origin.y / ray.direction.y;

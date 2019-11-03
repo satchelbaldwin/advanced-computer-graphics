@@ -30,4 +30,5 @@ Color Scene::color_with_ray(Ray& r)
             return color_at_intersection(in);
         }
     }
+    return Color(0, 0, 0);
 }

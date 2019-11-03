@@ -9,24 +9,22 @@
 
 int main(int argc, char **argv)
 {
-	Canvas canvas{1000, 500};
+	Canvas canvas{500, 250};
     Scene scene;
-    Camera camera{60, 1000, 500};
+    Camera camera{60, 500, 250};
 
     // Testing scene
-    Sphere floor{};
-    floor.scale(Vector(10, 0.01, 10));
+    Plane floor{};
     floor.material.color = Color(1, 0.9, 0.9);
     floor.material.specular = 0;
 
-    Sphere left_wall{};
-    left_wall.scale(Vector(10, 0.01, 10));
-    left_wall.rotate(Vector(90, -45, 0));
-    left_wall.translate(Vector(0, 0, 5));
+    Plane left_wall{};
+    left_wall.rotate(Vector(0, 45, 0));
+    left_wall.rotate(Vector(90, 0, 0));
+    //left_wall.translate(Vector(0, 0, 5));
     left_wall.material = floor.material;
 
-    Sphere right_wall{};
-    right_wall.scale(Vector(10, 0.01, 10));
+    Plane right_wall{};
     right_wall.rotate(Vector(90, 45, 0));
     right_wall.translate(Vector(0, 0, 5));
     right_wall.material = floor.material;
@@ -44,9 +42,9 @@ int main(int argc, char **argv)
     right.material.diffuse = 0.7;
     right.material.specular = 0.3;
 
-    scene.add_object(floor);
+    //scene.add_object(floor);
     scene.add_object(left_wall);
-    scene.add_object(right_wall);
+    //scene.add_object(right_wall);
     scene.add_object(middle);
     scene.add_object(right);
 
@@ -57,25 +55,6 @@ int main(int argc, char **argv)
 
     camera.render_scene(&canvas, scene);
 
-/*
-    Vector origin{0, 0, -5};
-    for (int i = 0; i < canvas.height; ++i) {
-        double y = 2 - (double)i / (canvas.height / 4);
-        for (int j = 0; j < canvas.width; ++j) {
-            double x = -2 + (double)j / (canvas.width / 4);
-            Vector direction = (Vector{x, y, 0} - origin).normalize();
-            Ray r{origin, direction};
-            auto intersections = scene.intersections_with(r);
-            for (auto in : intersections) {
-                if (in.t > 0) {
-                    canvas.pixels[i][j] = in.object->material.color_at_point(in.hitrecord(), scene);
-                    break;
-                }
-            }
-
-        }
-    }
-*/
 	canvas.write("second-image.ppm");
 
 	return 0;

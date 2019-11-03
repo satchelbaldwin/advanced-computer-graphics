@@ -138,17 +138,17 @@ Matrix Matrix::identity(int n)
 
 Matrix Matrix::rotate_x(double degrees)
 {
-    /*  [1  0 0 0]
-        [0  c s 0]
-        [0 -s c 0]
-        [0  0 0 1]  */
+    /*  [1 0  0 0]
+        [0 c -s 0]
+        [0 s  c 0] 
+        [0 0  0 1]  */
     Matrix result{4};
     double r = degrees_to_radians(degrees);
 
     result[0][0] =  1;
     result[1][1] =  cos(r);
-    result[2][1] = -sin(r);
-    result[1][2] =  sin(r);
+    result[2][1] =  sin(r);
+    result[1][2] = -sin(r);
     result[2][2] =  cos(r);
     result[3][3] =  1;
     
@@ -157,17 +157,17 @@ Matrix Matrix::rotate_x(double degrees)
 
 Matrix Matrix::rotate_y(double degrees)
 {
-    /*  [c 0 -s 0]
-        [0 1  0 0]
-        [s 0  c 0]
-        [0 0  0 1]  */
+    /*  [ c 0 s 0]
+        [ 0 1 0 0]
+        [-s 0 c 0]
+        [ 0 0 0 1]  */
     Matrix result{4};
     double r = degrees_to_radians(degrees);
 
     result[0][0] =  cos(r);
-    result[0][2] = -sin(r);
+    result[0][2] =  sin(r);
     result[1][1] =  1;
-    result[2][0] =  sin(r);
+    result[2][0] = -sin(r);
     result[2][2] =  cos(r);
     result[3][3] =  1;
     
@@ -176,16 +176,16 @@ Matrix Matrix::rotate_y(double degrees)
 
 Matrix Matrix::rotate_z(double degrees)
 {
-    /*  [ c s 0 0]
-        [-s c 0 0]
+    /*  [ c -s 0 0]
+        [s c 0 0]
         [ 0 0 1 0]
         [ 0 0 0 1]  */
     Matrix result{4};
     double r = degrees_to_radians(degrees);
 
     result[0][0] =  cos(r);
-    result[0][1] =  sin(r);
-    result[1][0] = -sin(r);
+    result[0][1] = -sin(r);
+    result[1][0] =  sin(r);
     result[1][1] =  cos(r);
     result[2][2] =  1;
     result[3][3] =  1;
