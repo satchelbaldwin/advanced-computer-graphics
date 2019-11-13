@@ -4,6 +4,6 @@
 class Sphere : public Object {
 public:
 	Sphere();
-	std::vector<Intersection> intersects_with(Ray&) override;
-	Vector normal_at(Point&) override;
+	std::vector<Intersection> local_intersects_with(Ray&, Ray&) override;
+	Vector local_normal_at(Point&) override;
 };

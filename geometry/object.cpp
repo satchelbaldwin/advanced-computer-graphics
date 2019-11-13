@@ -38,3 +38,17 @@ void Object::rotate(double x, double y, double z)
 	if (y != 0) transform = Matrix::rotate_y(y) * transform;
 	if (z != 0) transform = Matrix::rotate_z(z) * transform;
 }
+
+std::vector<Intersection> Object::intersects_with(Ray& ray)
+{
+	Ray object_ray = *(transform.get_inverse()) * ray;
+	return local_intersects_with(object_ray, ray);
+}
+
+Vector Object::normal_at(Point& point)
+{
+	Point object_point = (*transform.get_inverse()) * point;
+	Point object_normal = local_normal_at(object_point);
+	Point world_normal = transform.get_inverse()->transpose() * object_normal;
+	return (Vector)world_normal.normalize();
+}

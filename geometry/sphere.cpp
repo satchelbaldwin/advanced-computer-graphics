@@ -2,10 +2,8 @@
 
 Sphere::Sphere() : Object() {}
 
-std::vector<Intersection> Sphere::intersects_with(Ray& original_ray)
+std::vector<Intersection> Sphere::local_intersects_with(Ray& ray, Ray& original_ray)
 {
-	Ray ray = *(transform.get_inverse()) * original_ray;
-
 	Vector adjusted_origin = ray.origin - Point(0, 0, 0);
 	double a = ray.direction.dot(ray.direction);
 	double b = ray.direction.dot(adjusted_origin) * 2;
@@ -35,10 +33,8 @@ std::vector<Intersection> Sphere::intersects_with(Ray& original_ray)
 	return v;
 }
 
-Vector Sphere::normal_at(Point& p)
+Vector Sphere::local_normal_at(Point& object_point)
 {
-	Point object_point = (*transform.get_inverse()) * p;
 	Point object_normal = object_point - Point(0, 0, 0); // origin
-	Point world_normal = transform.get_inverse()->transpose() * object_normal;
-	return (Vector)world_normal.normalize();
+	return object_normal;
 }

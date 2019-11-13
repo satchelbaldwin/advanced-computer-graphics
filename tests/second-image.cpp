@@ -18,16 +18,14 @@ int main(int argc, char **argv)
     floor.material.color = Color(1, 0.9, 0.9);
     floor.material.specular = 0;
 
-    Sphere right_wall{};
-    right_wall.scale(10, 0.01, 10);
+    Plane right_wall{};
     right_wall.rotate(90, 0, 0);
     right_wall.rotate(0,45,0);
     right_wall.translate(0, 0, 5);
     right_wall.material = floor.material;
 
-    Sphere left_wall{};
+    Plane left_wall{};
     left_wall.material.color = Color(1, 0.9, 0.8);
-    left_wall.scale(10, 0.01, 10);
     left_wall.rotate(90,0,0);
     left_wall.rotate(0,-45,0);
     left_wall.translate(0, 0, 5);

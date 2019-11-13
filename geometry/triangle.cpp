@@ -7,7 +7,7 @@ Triangle::Triangle(const Point& a, const Point& b, const Point& c) :
     Object(), a(a), b(b), c(c)
 {}
 
-std::vector<Intersection> Triangle::intersects_with(Ray& ray)
+std::vector<Intersection> Triangle::local_intersects_with(Ray& ray, Ray& original_ray)
 {
     double d[9] = {
         a.x - b.x, a.x - c.x, ray.direction.x,
@@ -33,7 +33,7 @@ std::vector<Intersection> Triangle::intersects_with(Ray& ray)
     // refactor	
     auto make_intersection = [&](double t) -> Intersection
 	{
-		return Intersection(t, ray, this);
+		return Intersection(t, original_ray, this);
 	};
     std::vector<Intersection> r;
     // constraints
@@ -50,7 +50,7 @@ std::vector<Intersection> Triangle::intersects_with(Ray& ray)
     return r;
 }
 
-Vector Triangle::normal_at(Point& p)
+Vector Triangle::local_normal_at(Point& p)
 {
 	return cross((b - a), (c - a)).normalize();
 }
