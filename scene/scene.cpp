@@ -32,3 +32,11 @@ Color Scene::color_with_ray(Ray& r)
     }
     return Color(0, 0, 0);
 }
+
+void Scene::calculate_inverses() 
+{
+    for (auto& o : objects) {
+        o->transform.store_determinant();
+        o->transform.store_inverse();
+    }
+}

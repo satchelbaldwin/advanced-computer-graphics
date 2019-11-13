@@ -24,4 +24,5 @@ public:
     Color color_at_intersection(Intersection&);
 
     Color color_with_ray(Ray&);
+    void calculate_inverses();
 };

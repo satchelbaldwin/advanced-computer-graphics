@@ -10,20 +10,31 @@ Object::Object() : transform(Matrix::identity(4)), material(Material::default_ma
 void Object::scale(const Tuple& t)
 {
 	transform = Matrix::scale(t) * transform;
-	transform.store_inverse();
+}
+
+void Object::scale(double x, double y, double z)
+{
+	transform = Matrix::scale(Vector(x, y, z)) * transform;
 }
 
 void Object::translate(const Tuple& t)
 {
 	transform = Matrix::translate(t) * transform;
-	transform.store_inverse();
+}
+
+void Object::translate(double x, double y, double z)
+{
+	transform = Matrix::translate(Vector(x, y, z)) * transform;
 }
 
 void Object::rotate(const Tuple& t)
 {
-	if (t.x != 0) transform = Matrix::rotate_x(t.x) * transform;
-	if (t.y != 0) transform = Matrix::rotate_y(t.y) * transform;
-	if (t.z != 0) transform = Matrix::rotate_z(t.z) * transform;
-	if (t.x != 0 || t.y != 0 || t.z != 0)
-		transform.store_inverse();
+	rotate(t.x, t.y, t.z);
+}
+
+void Object::rotate(double x, double y, double z)
+{
+	if (x != 0) transform = Matrix::rotate_x(x) * transform;
+	if (y != 0) transform = Matrix::rotate_y(y) * transform;
+	if (z != 0) transform = Matrix::rotate_z(z) * transform;
 }

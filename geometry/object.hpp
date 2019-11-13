@@ -17,6 +17,9 @@ public:
 	virtual Vector normal_at(Point&) {return Vector();};
 
 	void scale(const Tuple&);
+	void scale(double, double, double);
 	void translate(const Tuple&);
+	void translate(double, double, double);
 	void rotate(const Tuple&);
+	void rotate(double, double, double);
 };

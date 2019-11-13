@@ -13,9 +13,9 @@ public:
     double fov;
     double pixel_size;
 
-    double aspect;
     int width;
     int height;
+    double aspect;
     double half_width;
     double half_height;
 
