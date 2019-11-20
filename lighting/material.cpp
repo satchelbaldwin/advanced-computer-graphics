@@ -23,9 +23,9 @@ Color Material::color_at_point(HitRecord r, Scene& scene)
     for (auto light_ptr : scene.lights) {
         PointLight& light = *light_ptr;
         auto to_light = (light.position - r.hit_point).normalize();
-        auto diffuse_intensity = std::max((double)0, to_light.dot(r.normal));    
+        auto diffuse_intensity = std::max(0.0, to_light.dot(r.normal));    
         auto specular_intensity = std::max(
-            (double)0, 
+            0.0, 
             reflect(to_light, r.normal).dot(r.eye)
         );
 
@@ -36,11 +36,13 @@ Color Material::color_at_point(HitRecord r, Scene& scene)
         // continue;
 
         // if not in shadow
-        auto diffuse_color = light.intensity * color * diffuse * diffuse_intensity;
-        auto emission_color = color * emission;
-        auto specular_color = light.intensity * std::pow(specular_intensity, shininess) * specular;
-        auto color = diffuse_color + emission_color + specular_color;
-        total = total + color;
+        if (!scene.is_in_shadow(r.overpoint, light)) {
+            auto diffuse_color = light.intensity * color * diffuse * diffuse_intensity;
+            auto emission_color = color * emission;
+            auto specular_color = light.intensity * std::pow(specular_intensity, shininess) * specular;
+            auto color = diffuse_color + emission_color + specular_color;
+            total = total + color;
+        }
     }
     
     /*

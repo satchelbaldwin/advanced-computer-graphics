@@ -25,4 +25,6 @@ public:
 
     Color color_with_ray(Ray&);
     void calculate_inverses();
+
+    bool is_in_shadow(Point&, PointLight&);
 };

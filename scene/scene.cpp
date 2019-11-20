@@ -40,3 +40,27 @@ void Scene::calculate_inverses()
         o->transform.store_inverse();
     }
 }
+
+bool Scene::is_in_shadow(Point& point, PointLight& light)
+{
+    auto v = light.position - point;
+    auto distance = v.magnitude();
+    auto direction = v.normalize();
+    Ray ray{point, direction};
+    std::cout << "po: " << point << " dir: " << direction << "\n";
+    auto intersections = intersections_with(ray);
+    if (intersections.size() < 1) 
+        return false;
+
+    std::cout << intersections[0].object;
+
+    double lowest_t; 
+    for (auto& i : intersections) {
+        if (i.t >= 0) {
+            lowest_t = i.t;
+            break;
+        }
+    }
+    std::cout << "lt: " << lowest_t << " dis" << distance << "\n";
+    return (lowest_t < distance);
+}

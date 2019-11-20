@@ -14,11 +14,10 @@ HitRecord Intersection::hitrecord()
         h.is_inside = true;
     }
 
-    h.overpoint = h.hit_point + (h.normal * 0.005);
-    h.overpoint = h.hit_point - (h.normal * 0.005);
+    h.overpoint  = h.hit_point + (h.normal * 0.0001);
+    h.underpoint = h.hit_point - (h.normal * 0.005);
 
 /*
-
     vector v
     for intersection in intersection
         if intersection is self

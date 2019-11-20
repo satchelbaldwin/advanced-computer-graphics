@@ -4,9 +4,7 @@
 #include "vector.hpp"
 #include "ray.hpp"
 #include "matrix.hpp"
-
-#define EPSILON 0.00005
-#define PI      3.141592653589793238463
+#include "constants.hpp"
 
 inline double degrees_to_radians(double degrees)
 {
