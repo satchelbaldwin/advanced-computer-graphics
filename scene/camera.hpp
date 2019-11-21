@@ -1,31 +1,29 @@
 #pragma once
+#include "canvas/canvas.hpp"
 #include "math/math.hpp"
 #include "scene.hpp"
-#include "canvas/canvas.hpp"
 
 // perspective camera
-class Camera
-{
+class Camera {
 public:
-    Camera();
-    Camera(double, int, int);
-    
-    double fov;
-    double pixel_size;
+  Camera();
+  Camera(double, int, int);
 
-    int width;
-    int height;
-    double aspect;
-    double half_width;
-    double half_height;
+  double fov;
+  double pixel_size;
 
-    Matrix transform;
-    Vector forward;
-    Vector up;
-    Vector right;
+  int width;
+  int height;
+  double aspect;
+  double half_width;
+  double half_height;
 
-    Ray ray_for_pixel(int, int);
-    void render_scene(Canvas*, Scene&);
-    void set_transformation(Vector, Vector, Vector);
+  Matrix transform;
+  Vector forward;
+  Vector up;
+  Vector right;
+
+  Ray ray_for_pixel(int, int);
+  void render_scene(Canvas *, Scene &);
+  void set_transformation(Vector, Vector, Vector);
 };
-

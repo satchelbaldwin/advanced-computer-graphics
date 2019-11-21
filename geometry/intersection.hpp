@@ -3,30 +3,30 @@
 
 class HitRecord {
 public:
-    HitRecord(){}
-    Point hit_point;
-    Vector normal;
-    Vector eye;
-    bool is_inside;
-    Point overpoint;
-    Point underpoint;
+  HitRecord() {}
+  Point hit_point;
+  Vector normal;
+  Vector eye;
+  bool is_inside;
+  Point overpoint;
+  Point underpoint;
 
-    double ior_incoming;
-    double ior_transmitted;
+  double ior_incoming;
+  double ior_transmitted;
 };
 
 class Object;
 class Intersection {
 public:
-    Intersection(){}
-    Intersection(double t, Ray r, Object *o) : t(t), ray(r), object(o) {}
-    double t;
-    Ray ray;
-    Object *object;
-    HitRecord hitrecord();
+  Intersection() {}
+  Intersection(double t, Ray r, Object *o) : t(t), ray(r), object(o) {}
+  double t;
+  Ray ray;
+  Object *object;
+  HitRecord hitrecord();
 };
 
-bool operator<(Intersection& a, Intersection& b);
+bool operator<(Intersection &a, Intersection &b);
 
 /*
 
@@ -71,7 +71,7 @@ cos (theta t) = sqrt(1 - (sin^2 theta t));
 total internal reflection: bad
 
 t = t normal + t tangent
-t tangent = 
+t tangent =
 
 new direction = normal * ((ni/nt) * cos(theta i) - cos(theta t)) - eye * (ni/nt)
 
@@ -79,5 +79,6 @@ new direction = normal * ((ni/nt) * cos(theta i) - cos(theta t)) - eye * (ni/nt)
 
 calculating ni/nt!
 
-t:-6|r:1.5     t:-4|t:2      t:-2|t:2.5      <-o->     t:2|r:3     t:6|r:3    t:8|r:1
+t:-6|r:1.5     t:-4|t:2      t:-2|t:2.5      <-o->     t:2|r:3     t:6|r:3
+t:8|r:1
 */

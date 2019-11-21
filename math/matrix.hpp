@@ -24,71 +24,69 @@ scale(2) -> translate(1, 0, 0) != translate(1, 0, 0) -> scale(2)
  */
 
 #include <memory>
+
 #include "v3.hpp"
 
 class Matrix {
 public:
-    double **data;
-    int size;
-    std::shared_ptr<Matrix> inverse;
-    std::shared_ptr<double> stored_determinant;
+  double **data;
+  int size;
+  std::shared_ptr<Matrix> inverse;
+  std::shared_ptr<double> stored_determinant;
 
-    Matrix();
-    Matrix(int);
-    // big five
-    // https://en.cppreference.com/w/cpp/language/rule_of_three 
-    ~Matrix();
-    Matrix(const Matrix&);
-    Matrix(Matrix&&) noexcept;
-    Matrix& operator=(const Matrix&);
-    Matrix& operator=(Matrix&&) noexcept;
+  Matrix();
+  Matrix(int);
+  // big five
+  // https://en.cppreference.com/w/cpp/language/rule_of_three
+  ~Matrix();
+  Matrix(const Matrix &);
+  Matrix(Matrix &&) noexcept;
+  Matrix &operator=(const Matrix &);
+  Matrix &operator=(Matrix &&) noexcept;
 
-    void from_array(double*);
-    static Matrix from(int, double*);
+  void from_array(double *);
+  static Matrix from(int, double *);
 
-    void store_inverse();
-    std::shared_ptr<Matrix> get_inverse();
-    bool invertable();
+  void store_inverse();
+  std::shared_ptr<Matrix> get_inverse();
+  bool invertable();
 
-    void store_determinant();
-    double determinant();
-    Matrix submatrix(int, int);
-    double minor(int, int);
-    double cofactor(int, int);
-    Matrix transpose();
+  void store_determinant();
+  double determinant();
+  Matrix submatrix(int, int);
+  double minor(int, int);
+  double cofactor(int, int);
+  Matrix transpose();
 
-    static Matrix scale(Tuple);
-    static Matrix translate(Tuple);
-    static Matrix identity(int);
+  static Matrix scale(Tuple);
+  static Matrix translate(Tuple);
+  static Matrix identity(int);
 
-    static Matrix rotate_x(double degrees);
-    static Matrix rotate_y(double degrees);
-    static Matrix rotate_z(double degrees);
+  static Matrix rotate_x(double degrees);
+  static Matrix rotate_y(double degrees);
+  static Matrix rotate_z(double degrees);
 
-    Matrix operator*(const Matrix&);
-    bool operator==(const Matrix&) const;
-    bool operator!=(const Matrix& m) const 
-    {
-        return !(*this == m);
+  Matrix operator*(const Matrix &);
+  bool operator==(const Matrix &) const;
+  bool operator!=(const Matrix &m) const { return !(*this == m); }
+
+  // square brackets resolve to data[]
+  double *operator[](int i) const;
+  double *&operator[](int i);
+
+  friend std::ostream &operator<<(std::ostream &os, Matrix const &v) {
+    os << "{";
+    for (int row = 0; row < v.size; ++row) {
+      os << "{";
+      for (int col = 0; col < v.size - 1; ++col) {
+        os << v[row][col] << ",";
+      }
+      os << v[row][v.size - 1];
+      os << "}";
     }
-
-    // square brackets resolve to data[]
-    double *operator[](int i) const;
-    double *&operator[](int i);
-
-    friend std::ostream& operator << ( std::ostream& os, Matrix const& v ) {
-        os << "{";
-        for (int row = 0; row < v.size; ++row) {
-            os << "{";
-            for (int col = 0; col < v.size - 1; ++col) {
-                os << v[row][col] << ",";
-            }
-            os << v[row][v.size - 1];
-            os << "}";
-        } 
-        os << "}";
-        return os; 
-    }   
+    os << "}";
+    return os;
+  }
 };
 
-Tuple operator*(const Matrix& m, const Tuple& t);
+Tuple operator*(const Matrix &m, const Tuple &t);

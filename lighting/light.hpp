@@ -2,9 +2,8 @@
 #include "math/vector.hpp"
 #include "point_light.hpp"
 
-inline Vector reflect( const Vector& original, Vector& normal)
-{
-    return (-1 * original + 2*(normal.dot(original))*normal);
+inline Vector reflect(const Vector &original, Vector &normal) {
+  return (-1 * original + 2 * (normal.dot(original)) * normal);
 }
 
 /*
