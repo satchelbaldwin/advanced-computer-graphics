@@ -1,8 +1,8 @@
 #include "intersection.hpp"
-
 #include "geometry/object.hpp"
+#include <algorithm>
 
-HitRecord Intersection::hitrecord() {
+HitRecord Intersection::hitrecord(std::vector<Intersection> &intersections) {
   HitRecord h;
   h.hit_point = ray.point_at(t);
   h.eye = (ray.origin - h.hit_point).normalize();
@@ -17,27 +17,34 @@ HitRecord Intersection::hitrecord() {
   h.overpoint = h.hit_point + (h.normal * 0.0001);
   h.underpoint = h.hit_point - (h.normal * 0.0001);
 
-  /*
-  vector v
-  for intersection in intersection
-      if intersection is self
-          if nothing in v
-              ior_inc = 1
-          else
-              ior_inc = v[-1]->object->material->ior
+  std::vector<Object *> containers;
 
-  last object in v -> ior incoming
+  for (auto &i : intersections) {
+    if (&i == this) {
+      if (containers.size() == 0)
+        h.ior_incoming = 1.0;
+      else {
+        h.ior_incoming = containers[containers.size() - 1]->material.ior;
+      }
+    }
 
-  if v/containers contains an intersection w/ the same object
-      we're leaving
-      pop out of v
-  otherwise
-      add to v
+    auto container_iter =
+        std::find(containers.begin(), containers.end(), i.object);
+    if (container_iter != containers.end()) {
+      containers.erase(container_iter);
+    } else {
+      containers.push_back(i.object);
+    }
 
-  if intersections is self
-      if v is empty
-          ior_t = 1 (leaaaaaaaaaaaaaaaaaaaaaaaaaving          )
-*/
+    if (&i == this) {
+      if (containers.size() == 0)
+        h.ior_transmitted = 1.0;
+      else {
+        h.ior_transmitted = containers[containers.size() - 1]->material.ior;
+      }
+      break;
+    }
+  }
 
   return h;
 }

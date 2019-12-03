@@ -1,5 +1,6 @@
 #pragma once
 #include "math/math.hpp"
+#include <vector>
 
 class HitRecord {
 public:
@@ -23,11 +24,12 @@ public:
   double t;
   Ray ray;
   Object *object;
-  HitRecord hitrecord();
+  // refactor to have intersections save
+  HitRecord hitrecord(std::vector<Intersection> &);
 };
 
 bool operator<(Intersection &a, Intersection &b);
-
+bool operator==(Intersection &a, Intersection &b);
 /*
 
 refraction notes:

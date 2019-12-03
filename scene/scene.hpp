@@ -18,9 +18,15 @@ public:
   }
 
   std::vector<Intersection> intersections_with(Ray &);
-  Color color_at_intersection(Intersection &);
+  Color color_at_intersection(Intersection &, std::vector<Intersection> &);
+  Color color_at_intersection(Intersection &, std::vector<Intersection> &, int);
 
   Color color_with_ray(Ray &);
+  Color color_with_ray(Ray &, int);
+
+  const static int max_refraction_depth = 5;
+  Color refracted_color(Intersection &, HitRecord &, int);
+
   void calculate_inverses();
 
   bool is_in_shadow(Point &, PointLight &);
