@@ -29,26 +29,16 @@ T_DEP = $(T_OBJ:%.o=%.d)
 .PHONY : lib
 
 test : $(BUILD_DIR)/bin/test
-first-image: $(BUILD_DIR)/bin/first-image
-second-image : $(BUILD_DIR)/bin/second-image
-live : $(BUILD_DIR)/bin/live
+render : $(BUILD_DIR)/bin/render
 
 # Actual target of the binary - depends on all .o files.
-$(BUILD_DIR)/bin/test : build/tests/tests.o $(OBJ) $(CXX_FLAGS)
+$(BUILD_DIR)/bin/test : build/tests/tests.o $(OBJ) $(T_OBJ) $(CXX_FLAGS)
     # Create build directories - same structure as sources.
 	mkdir -p $(@D)
     # Just link all the object files.
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-$(BUILD_DIR)/bin/first-image : build/tests/first-image.o $(OBJ) $(CXX_FLAGS)
-	mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $^ -o $@
-
-$(BUILD_DIR)/bin/second-image : build/tests/second-image.o $(OBJ) $(CXX_FLAGS)
-	mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $^ -o $@
-
-$(BUILD_DIR)/bin/live : build/tests/live.o $(OBJ) $(CXX_FLAGS)
+$(BUILD_DIR)/bin/render : build/tests/render.o $(OBJ) $(CXX_FLAGS)
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 

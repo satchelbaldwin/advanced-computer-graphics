@@ -68,31 +68,11 @@ Color Material::color_at_point(HitRecord r, Scene &scene, int recursion_depth) {
           (r.normal * (n_ratio * cos_i - cos_t)) - (r.eye * n_ratio);
       Ray refracted{r.underpoint, direction};
 
-      std::cout << scene.color_with_ray(refracted, recursion_depth + 1) << "\n";
-
       refracted_color =
           scene.color_with_ray(refracted, recursion_depth + 1) * transparency;
     }
     total = total + refracted_color;
   }
-
-  /*
-
-  // reflectivity
-  Ray reflected = Ray();
-  reflected.direction = reflect(r.eye, r.normal);
-  reflected.origin = r.overpoint;
-  Color reflected_color = scene.color_with_ray(reflected);
-  // color = world -> color from ray (r)  *   self reflectiveness
-  // added to all of the other colors.
-
-  // refraction
-  Ray refracted = Ray();
-  refracted.direction = Vector(0, 0, 0); // see notes!
-  refracted.origin = r.underpoint;
-  Color refracted_color = scene.color_with_ray(refracted) * transparency;
-
-  */
 
   total.x = (total.x > 1.) ? 1. : total.x;
   total.y = (total.y > 1.) ? 1. : total.y;

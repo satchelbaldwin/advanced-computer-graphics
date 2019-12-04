@@ -1,0 +1,22 @@
+point light at -10, 10, -10, color = white
+sphere1 : 0 0 0
+    radius 1
+    color 0.8 1.0 0.6
+    diffuse 0.7
+    specular 0.2
+    shininess 200
+    ambient 0.1
+    ior 1
+    reflectivity 0
+    transparency 0
+
+sphere2 : 0 0 0
+    radius 0.5
+    color white
+    diffuse 0.9
+    specular 0.9
+    shininess 200
+    ambient 0.1
+    ior 1
+    reflectivity 0
+    transparency 0
