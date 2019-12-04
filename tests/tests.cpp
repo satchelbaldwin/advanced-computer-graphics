@@ -549,3 +549,5 @@ Scenario: PPM files are terminated by a newline character
   Then ppm ends with a newline character
 
 */
+
+TEST_CASE("a") {}

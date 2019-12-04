@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 
   // Testing scene
 
-  Plane floor{};
+  /*Plane floor{};
   floor.material.color = Color(1, 0.9, 0.9);
   floor.material.specular = 0;
 
@@ -45,13 +45,13 @@ int main(int argc, char **argv) {
   right.material.color = Color(1, 0.1, 0.5);
   right.material.diffuse = 0.7;
   right.material.specular = 0.3;
-  right.material.reflectivity = 0.1;
+  right.material.reflectivity = 0.1;*/
 
-  scene.add_object(floor);
+  // scene.add_object(floor);
   // scene.add_object(left_wall);
   // scene.add_object(right_wall);
-  scene.add_object(middle);
-  scene.add_object(right);
+  // scene.add_object(middle);
+  // scene.add_object(right);
 
   PointLight light{Point(-10, 10, -10), Color(0.2, 0.2, 0.2)};
   PointLight light2{Point(10, 10, -10), Color(0.5, 0.5, 0.5)};
@@ -61,9 +61,17 @@ int main(int argc, char **argv) {
   camera.set_transformation(Vector(0, 1.5, -5), Vector(0, 1, 0),
                             Vector(0, 1, 0));
 
+  Plane floor{};
+  floor.material.color = Color(1, 0.9, 0.9);
+  // floor.material.specular = 0.5;
+  floor.material.transparency = 1.0;
+  floor.material.ior = 1.2;
+  // floor.material.reflectivity = 0.5;
+
   Sphere one{};
-  one.material.transparency = 1.0;
-  one.material.ior = 1.5;
+  one.material.transparency = 0;
+  one.material.reflectivity = 0;
+  one.material.color = Color{1, 0, 0};
   one.scale(2, 2, 2);
 
   Sphere two{};
@@ -77,6 +85,7 @@ int main(int argc, char **argv) {
   two.translate(0, 0, 0.25);
 
   scene.add_object(one);
+  scene.add_object(floor);
   // scene.add_object(two);
   // scene.add_object(three);
 

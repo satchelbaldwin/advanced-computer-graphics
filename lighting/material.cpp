@@ -62,15 +62,16 @@ Color Material::color_at_point(HitRecord r, Scene &scene, int recursion_depth) {
       // total internal refraction
       double n_ratio = r.ior_incoming / r.ior_transmitted;
       double cos_i = r.eye.dot(r.normal);
-      double sin2_t = (n_ratio * n_ratio) * (1 - (cos_i * cos_i));
-
+      double sin2_t = (n_ratio * n_ratio) * (1.0 - (cos_i * cos_i));
       double cos_t = sqrt(1.0 - sin2_t);
-      auto direction = r.normal * (n_ratio * cos_i - cos_t) - r.eye * n_ratio;
+      auto direction =
+          (r.normal * (n_ratio * cos_i - cos_t)) - (r.eye * n_ratio);
       Ray refracted{r.underpoint, direction};
+
+      std::cout << scene.color_with_ray(refracted, recursion_depth + 1) << "\n";
 
       refracted_color =
           scene.color_with_ray(refracted, recursion_depth + 1) * transparency;
-      std::cout << refracted_color << "\n";
     }
     total = total + refracted_color;
   }
