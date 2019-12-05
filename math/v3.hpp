@@ -20,7 +20,7 @@ public:
     return V3(x + v.x, y + v.y, z + v.z, w + v.w);
   }
 
-  template <class T2> V3<T> &operator+=(const V3<T2> &v) { return *this + v; }
+  template <class T2> V3<T> &operator+=(const V3<T2> &v) { auto n = *this + v; *this = n; return *this; }
 
   // subtraction
   template <class T2> auto operator-(const V3<T2> &v) -> V3<decltype(v.x - x)> {
@@ -85,7 +85,7 @@ auto cross(const V3<T1> &v1, const V3<T2> &v2)
   return V3<decltype(v1.y * v2.z - v1.z * v2.y)>(v1.y * v2.z - v1.z * v2.y,
                                                  v1.z * v2.x - v1.x * v2.z,
                                                  v1.x * v2.y - v1.y * v2.x,
-                                                 0.0 // vector
+                                                 0.0 
   );
 }
 

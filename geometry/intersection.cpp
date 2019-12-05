@@ -18,6 +18,7 @@ HitRecord Intersection::hitrecord(std::vector<Intersection> &intersections) {
   h.underpoint = h.hit_point - (h.normal * 0.0001);
 
   std::vector<Object *> containers;
+
   for (auto &i : intersections) {
     if (i.t == t && i.object == object) {
       if (containers.size() == 0)

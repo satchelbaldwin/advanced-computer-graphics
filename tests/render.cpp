@@ -91,8 +91,6 @@ int main(int argc, char **argv) {
 
   scene.calculate_inverses();
 
-  Ray r{Point{0, 0, -4}, Vector{0, 0, 1}};
-
   camera.render_scene(&canvas, scene);
   canvas.write("second-image.ppm");
 
