@@ -1,0 +1,7 @@
+#include "geometry/plane.hpp"
+#include "geometry/sphere.hpp"
+#include "lighting/point_light.hpp"
+#include "math/constants.hpp"
+#include "math/v3.hpp"
+#include "scene/scene.hpp"
+#include "tests/catch.hpp"

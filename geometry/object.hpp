@@ -1,16 +1,16 @@
 #pragma once
-#include <iostream>
-#include <vector>
-
 #include "geometry/intersection.hpp"
 #include "lighting/material.hpp"
 #include "math/math.hpp"
+#include <iostream>
+#include <vector>
 
 class Object {
 public:
   Object();
   Matrix transform;
   Material material;
+
   // takes transformed ray into object space and world space ray
   virtual std::vector<Intersection> local_intersects_with(Ray &, Ray &) {
     std::cout << "Something got sliced! Uh-oh.\n";

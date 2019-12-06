@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-I. -Wall -Wextra -g -ggdb -O0
+CXXFLAGS=-I. -Wall -Wextra -g -ggdb -O2
 
 # https://stackoverflow.com/questions/714100/os-detecting-makefile
 UNAME := $(shell uname)
@@ -16,6 +16,7 @@ BUILD_DIR = ./build
 CPP = $(wildcard canvas/*.cpp) \
 	$(wildcard geometry/*.cpp) \
 	$(wildcard lighting/*.cpp) \
+	$(wildcard lighting/patterns/*.cpp) \
 	$(wildcard scene/*.cpp)    \
 	$(wildcard math/*.cpp)
 
