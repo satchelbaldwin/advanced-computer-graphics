@@ -82,12 +82,17 @@ bool Scene::is_in_shadow(Point &point, PointLight &light) {
   if (intersections[intersections.size() - 1].t < 0)
     return false;
 
+  // bool flag cheaper than doing a filter (casts_shadow) over intersections
+  bool any_casts_shadow = false;
   double lowest_t;
   for (auto &i : intersections) {
-    if (i.t >= 0) {
+    if (i.t >= 0 && i.object->material.casts_shadow) {
+      any_casts_shadow = true;
       lowest_t = i.t;
       break;
     }
   }
+  if (!any_casts_shadow)
+    return false;
   return (lowest_t < distance);
 }

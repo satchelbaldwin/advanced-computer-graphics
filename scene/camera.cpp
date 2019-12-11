@@ -1,15 +1,14 @@
 #include "camera.hpp"
-
-#include <iostream>
-
 #include "math/math.hpp"
 #include "scene.hpp"
+#include <iostream>
 
-Camera::Camera(/* args */) : transform(Matrix::identity(4)) {}
+Camera::Camera(/* args */) : transform(Matrix::identity(4)), sampler(9, 16) {}
 
 Camera::Camera(double fov, int width, int height)
     : fov(fov), width(width), height(height),
-      aspect((double)width / (double)height), transform(Matrix::identity(4)) {
+      aspect((double)width / (double)height), transform(Matrix::identity(4)),
+      sampler(9, 16) {
   double field_radians = degrees_to_radians(fov);
   double half_view = tan(field_radians / 2.);
   if (aspect >= 1) {
@@ -22,10 +21,16 @@ Camera::Camera(double fov, int width, int height)
   pixel_size = (half_width * 2) / (double)height;
 }
 
-Ray Camera::ray_for_pixel(int x, int y) {
+Ray Camera::ray_for_pixel(double x, double y) {
   // antialiasing here, this aims at pixel center
-  double x_offset = (x + 0.5) * pixel_size;
-  double y_offset = (y + 0.5) * pixel_size;
+  Sample next = sampler.next();
+  //std::cout << "nf " << next.first << " ns " << next.second << "\n";
+  double x_offset = (x + 0.5 + next.first) * pixel_size;
+  double y_offset = (y + 0.5 + next.second) * pixel_size;
+
+  if (x == 1 && y == 1 || x == 1 && y == 2) {
+    std::cout << x_offset << " " << y_offset << "\n";
+  }
 
   double world_x = half_width - x_offset;
   double world_y = half_height - y_offset;
@@ -38,12 +43,34 @@ Ray Camera::ray_for_pixel(int x, int y) {
 }
 
 void Camera::render_scene(Canvas *canvas, Scene &scene) {
+  sampler.generate_jitter(3);
+#pragma omp parallel for
   for (int y = 0; y < height; ++y) {
+#pragma omp parallel for
     for (int x = 0; x < width; ++x) {
-      Ray r = ray_for_pixel(x, y);
-      Color c = scene.color_with_ray(r);
-      canvas->pixels[y][x] = c;
+
+      Color sum(0, 0, 0);
+      double &sx = sum.x;
+      double &sy = sum.y;
+      double &sz = sum.z;
+#pragma omp parallel for reduction(+:sx) reduction(+:sy) reduction(+:sz)
+      for (int i = 0; i < sampler.num_samples; ++i) {
+
+        // std::cout << "x: " << x << " n: " << next.first << "\n";
+        Ray r = ray_for_pixel(x , y);
+        Color c = scene.color_with_ray(r);
+        sx += c.x;
+        sy += c.y;
+        sz += c.z;
+      }
+
+      sum.x = sum.x / sampler.num_samples;
+      sum.y = sum.y / sampler.num_samples;
+      sum.z = sum.z / sampler.num_samples;
+
+      canvas->pixels[y][x] = sum;
     }
+    std::cout << "Progress:\t\t " << (double)y / (double)height << "%\n";
   }
 }
 

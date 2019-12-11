@@ -1,6 +1,7 @@
 #pragma once
 #include "canvas/canvas.hpp"
 #include "math/math.hpp"
+#include "math/sampler.hpp"
 #include "scene.hpp"
 
 // perspective camera
@@ -23,7 +24,9 @@ public:
   Vector up;
   Vector right;
 
-  Ray ray_for_pixel(int, int);
+  Sampler sampler;
+
+  Ray ray_for_pixel(double, double);
   void render_scene(Canvas *, Scene &);
   void set_transformation(Vector, Vector, Vector);
 };

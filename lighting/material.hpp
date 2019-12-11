@@ -24,6 +24,7 @@ public:
   double reflectivity;
   double transparency = 0.0;
   double ior = 1;
+  bool casts_shadow = true;
 
   bool has_pattern = false;
   std::shared_ptr<Pattern> pattern;

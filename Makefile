@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-I. -Wall -Wextra -g -ggdb -O2
+CXXFLAGS= -fopenmp -I. -Wall -Wextra -g -ggdb -O2
 
 # https://stackoverflow.com/questions/714100/os-detecting-makefile
 UNAME := $(shell uname)
